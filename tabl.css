@@ -1,0 +1,260 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #000807, #2c3e50);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Шапка */
+.header {
+    background: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+}
+
+.nav-link {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+}
+
+/* Контейнер для таблицы */
+.content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+/* Стили таблицы */
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Заголовок таблицы */
+.students-table caption {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 3px solid #3498db;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Заголовки столбцов - РАЗНЫЙ ЦВЕТ ФОНА */
+.students-table thead th {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 16px 12px;
+    text-align: left; /* ВЫРАВНИВАНИЕ ПО ЛЕВОМУ КРАЮ */
+    font-weight: bold;
+    border: 1px solid #bdc3c7;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ячейки таблицы - ОТСТУПЫ В ЯЧЕЙКАХ */
+.students-table td {
+    padding: 14px 12px; /* ОТСТУПЫ ВНУТРИ ЯЧЕЕК */
+    border: 1px solid #ecf0f1;
+    text-align: left; /* ВЫРАВНИВАНИЕ ПО ЛЕВОМУ КРАЮ */
+    vertical-align: top;
+    transition: all 0.3s ease;
+}
+
+/* ЧЕТРЕДОВАНИЕ ЦВЕТОВ СТРОК */
+.students-table tbody tr:nth-child(even) {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Светло-серый градиент */
+}
+
+.students-table tbody tr:nth-child(odd) {
+    background: linear-gradient(135deg, #ffffff, #f1f3f4); /* Белый с легким градиентом */
+}
+
+/* ЭФФЕКТЫ ПРИ НАВЕДЕНИИ */
+.students-table tbody tr {
+    position: relative;
+    transition: all 0.3s ease;
+}
+.students-table tbody tr:hover {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    z-index: 1;
+}
+.students-table tbody tr {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.students-table tbody tr:hover {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    transform: scale(1.01);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.25);
+    z-index: 1;
+}
+
+/* Стили для конкретных столбцов для лучшей читаемости */
+
+.students-table td:first-child {
+    font-weight: bold;
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+}
+
+.students-table td:nth-child(2) {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.students-table td:nth-child(5) {
+    text-align: center;
+    font-weight: bold;
+}
+
+.students-table td:nth-child(6) {
+    text-align: center;
+    font-weight: bold;
+    color: #27ae60;
+}
+
+/* АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ */
+@media (max-width: 1024px) {
+    .students-table {
+        font-size: 13px;
+    }
+    
+    .students-table th,
+    .students-table td {
+        padding: 12px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 15px 20px;
+    }
+    
+    .nav-link {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+    
+    body {
+        padding: 10px;
+    }
+    
+    .content {
+        padding: 15px;
+        margin: 10px 0;
+    }
+    
+    .students-table {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .students-table caption {
+        font-size: 20px;
+        padding: 12px;
+    }
+    
+    .students-table th,
+    .students-table td {
+        padding: 10px 6px;
+        min-width: 120px;
+    }
+    
+    .students-table thead th {
+        font-size: 13px;
+        padding: 12px 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .students-table {
+        font-size: 11px;
+    }
+    
+    .students-table th,
+    .students-table td {
+        padding: 8px 4px;
+        min-width: 100px;
+    }
+    
+    .students-table caption {
+        font-size: 18px;
+        padding: 10px;
+    }
+    
+    .content {
+        padding: 10px;
+    }
+}
+
+/* Дополнительные стили для улучшения внешнего вида */
+.students-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.students-table tbody tr:first-child {
+    border-top: 2px solid #3498db;
+}
+
+.students-table tbody tr:last-child {
+    border-bottom: 2px solid #3498db;
+}
+
+/* Стили для разных форм поступления */
+.students-table td:nth-child(7) {
+    font-style: italic;
+}
+
+.students-table td:nth-child(7):contains("ЕГЭ") {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.students-table td:nth-child(7):contains("Олимпиада") {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.students-table td:nth-child(7):contains("Целевое") {
+    color: #9b59b6;
+    font-weight: bold;
+}
