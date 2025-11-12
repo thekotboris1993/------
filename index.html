@@ -2,54 +2,276 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои учебные проекты</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #000807, #2c3e50);
             color: white;
-            text-align: center;
+            min-height: 100vh;
+            padding: 20px;
         }
+
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.9));
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
             background: white;
             color: #333;
-            padding: 40px;
             border-radius: 15px;
-            margin-top: 50px;
+            padding: 30px;
+            text-align: center;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
-        .nav-link {
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-color: #3498db;
+        }
+
+        .project-card:nth-child(2)::before {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .project-card:nth-child(3)::before {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .project-card:nth-child(4)::before {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .project-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
             display: block;
-            background: #3498db;
+        }
+
+        .project-card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .project-card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .nav-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             text-decoration: none;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
         }
+
+        .project-card:nth-child(2) .nav-link {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .project-card:nth-child(3) .nav-link {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .project-card:nth-child(4) .nav-link {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
         .nav-link:hover {
-            background: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-decoration: none;
+            color: white;
         }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .github-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .github-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-card {
+                padding: 20px;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Проект "Таблица студентов"</h1>
-        <p>Интерактивная таблица с возможностью добавления студентов</p>
-        
-        <a href="tabl_lab4.html" class="nav-link">
-            Перейти к таблице студентов
-        </a>
-        
-        <p style="margin-top: 30px; color: #666;">
-            Проект размещён на GitHub Pages
-        </p>
+        <div class="header">
+            <h1>🚀 Мои учебные проекты</h1>
+            <p>Собрание работ по веб-разработке и программированию</p>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Карточка таблицы студентов -->
+            <div class="project-card">
+                <span class="project-icon">📊</span>
+                <h2>Таблица студентов</h2>
+                <p>Интерактивная таблица с возможностью добавления, удаления и управления данными студентов. Реализована система localStorage для сохранения данных.</p>
+                <a href="tabl_lab4.html" class="nav-link">Открыть таблицу</a>
+            </div>
+
+            <!-- Карточка основной страницы -->
+            <div class="project-card">
+                <span class="project-icon">🏠</span>
+                <h2>Основная страница</h2>
+                <p>Главная страница проекта с навигацией и основной информацией. Включает в себя базовые элементы веб-разработки.</p>
+                <a href="Laba_3.html" class="nav-link">Перейти к странице</a>
+            </div>
+
+            <!-- Карточка позиционирования -->
+            <div class="project-card">
+                <span class="project-icon">🎨</span>
+                <h2>Позиционирование элементов</h2>
+                <p>Демонстрация различных техник CSS позиционирования: flexbox, grid, absolute и relative позиционирование.</p>
+                <a href="page2.html" class="nav-link">Изучить позиционирование</a>
+            </div>
+
+            <!-- Карточка стилей -->
+            <div class="project-card">
+                <span class="project-icon">💅</span>
+                <h2>Стили и оформление</h2>
+                <p>Коллекция CSS стилей и тем оформления, включая градиенты, анимации и адаптивный дизайн.</p>
+                <a href="style.css" class="nav-link">Посмотреть стили</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📁 Репозиторий на GitHub: 
+                <a href="https://github.com/thekotboris1993/gitignore" class="github-link" target="_blank">
+                    thekotboris1993/gitignore
+                </a>
+            </p>
+            <p style="margin-top: 10px; opacity: 0.8;">✨ Разработано с использованием HTML5, CSS3 и JavaScript</p>
+        </div>
     </div>
+
+    <script>
+        // Добавляем плавную прокрутку для всех ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Добавляем анимацию при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
 </body>
 </html>
