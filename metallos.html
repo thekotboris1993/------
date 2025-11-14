@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metallos - Интеллектуальный ассистент для металлографического анализа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_metallos.css">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#sidebar" data-bs-offset="100">
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <img src="C:\Users\theko\Desktop\ВКР СТАРТАП\ИИ\лого металлос.jpg" alt="Metallos" height="30" class="d-inline-block align-text-top">
+                Metallos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="technology.html">Технология</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Боковое меню -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-5">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#carousel-section">Карусель</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features-section">Возможности</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about-section">О проекте</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Основной контент -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Карусель -->
+                <section id="carousel-section" class="pt-5 mt-4">
+                    <h2 class="border-bottom pb-2">Metallos в действии</h2>
+                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="images/slide1.jpg" class="d-block w-100" alt="Анализ микроструктуры" height="500">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Автоматический анализ микроструктур</h5>
+                                    <p>Точное распознавание дефектов по ГОСТ</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/slide2.jpg" class="d-block w-100" alt="Интерфейс программы" height="500">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Интуитивный интерфейс</h5>
+                                    <p>Простое управление для инженеров-металловедов</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/slide3.jpg" class="d-block w-100" alt="Интеграция с оборудованием" height="500">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Интеграция с микроскопами</h5>
+                                    <p>Поддержка Olympus, Zeiss, Altami</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Карточки с возможностями -->
+                <section id="features-section" class="py-5">
+                    <h2 class="border-bottom pb-2 mb-4">Ключевые возможности</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <img src="images/analysis-card.jpg" class="card-img-top" alt="Автоматический анализ" height="200">
+                                <div class="card-body">
+                                    <h5 class="card-title">Автоматический анализ</h5>
+                                    <p class="card-text">Анализ микроструктур по ГОСТ за 1 минуту вместо ручной работы</p>
+                                    <a href="https://www.gost.ru/" class="btn btn-primary" target="_blank">Узнать о ГОСТ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <img src="images/ai-card.jpg" class="card-img-top" alt="ИИ технологии" height="200">
+                                <div class="card-body">
+                                    <h5 class="card-title">Гибридный ИИ</h5>
+                                    <p class="card-text">CNN + U-Net архитектура для максимальной точности распознавания</p>
+                                    <a href="https://www.tensorflow.org/" class="btn btn-primary" target="_blank">TensorFlow</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <img src="images/report-card.jpg" class="card-img-top" alt="Генерация отчетов" height="200">
+                                <div class="card-body">
+                                    <h5 class="card-title">Автоотчеты</h5>
+                                    <p class="card-text">Генерация протоколов анализа за 2-3 минуты в соответствии с ГОСТ</p>
+                                    <a href="https://quality-lab.ru/" class="btn btn-primary" target="_blank">Пример отчета</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Информация о проекте с collapse -->
+                <section id="about-section" class="py-5">
+                    <h2 class="border-bottom pb-2 mb-4">О проекте Metallos</h2>
+                    
+                    <div class="accordion" id="projectAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    Проблема которую мы решаем
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#projectAccordion">
+                                <div class="accordion-body">
+                                    <strong>Субъективность металлографического анализа</strong> - основная проблема современных лабораторий.
+                                    <ul>
+                                        <li>Длительный цикл анализа</li>
+                                        <li>Низкая согласованность между экспертами</li>
+                                        <li>Высокая стоимость из-за дефицита кадров</li>
+                                        <li>Отсутствие единого стандарта оценки</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    Технологическая новизна
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#projectAccordion">
+                                <div class="accordion-body">
+                                    <strong>Принципиально новая разработка</strong> - гибридная архитектура (CNN + U-Net), интегрированная с оцифрованной базой знаний эталонов ГОСТ.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    Влияние на технологический суверенитет
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#projectAccordion">
+                                <div class="accordion-body">
+                                    <strong>Критическое влияние</strong> - проект устраняет импортозависимость в области ПО для контроля качества стратегически важной продукции (авиастроение, ВПК, энергетика).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

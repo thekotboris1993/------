@@ -1,0 +1,64 @@
+/* Стили для проекта Metallos */
+
+body {
+    padding-top: 76px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 76px;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar .nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.carousel-item img {
+    object-fit: cover;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e7f1ff;
+    color: #0c63e4;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 767.98px) {
+    .sidebar {
+        position: static;
+        padding-top: 0;
+    }
+    
+    body {
+        padding-top: 56px;
+    }
+}
+
+/* Стили для навигации */
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+/* Стили для карусели */
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
