@@ -4,6 +4,10 @@ body {
     padding-top: 76px;
 }
 
+.technology-page {
+    padding-top: 80px;
+}
+
 .sidebar {
     position: fixed;
     top: 76px;
@@ -23,10 +27,6 @@ body {
     color: #007bff;
 }
 
-.carousel-item img {
-    object-fit: cover;
-}
-
 .card {
     transition: transform 0.2s;
 }
@@ -40,7 +40,64 @@ body {
     color: #0c63e4;
 }
 
+/* Стили для навигации */
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+/* СТИЛИ ДЛЯ КАРУСЕЛИ С BACKGROUND-IMAGE */
+#productCarousel {
+    height: 500px;
+    overflow: hidden;
+}
+
+#productCarousel .carousel-inner {
+    height: 100%;
+}
+
+#productCarousel .carousel-item {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    bottom: 20px;
+}
+
 /* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    #productCarousel {
+        height: 300px;
+    }
+    
+    #productCarousel .carousel-item {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    #productCarousel {
+        height: 250px;
+    }
+    
+    #productCarousel .carousel-item {
+        height: 250px;
+    }
+    
+    .carousel-caption h5 {
+        font-size: 1rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
 @media (max-width: 767.98px) {
     .sidebar {
         position: static;
@@ -50,15 +107,4 @@ body {
     body {
         padding-top: 56px;
     }
-}
-
-/* Стили для навигации */
-.navbar-brand {
-    font-size: 1.5rem;
-}
-
-/* Стили для карусели */
-.carousel-caption {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
 }

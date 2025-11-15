@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">
-                <img src="C:\Users\theko\Desktop\ВКР СТАРТАП\ИИ\лого металлос.jpg" alt="Metallos" height="30" class="d-inline-block align-text-top">
+                <img src="Фото/лого металлос.jpg" alt="Metallos" height="30" class="d-inline-block align-text-top">
                 Metallos
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -53,77 +53,74 @@
             <!-- Основной контент -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <!-- Карусель -->
-                <section id="carousel-section" class="pt-5 mt-4">
-                    <h2 class="border-bottom pb-2">Metallos в действии</h2>
-                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
-                            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1"></button>
-                            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2"></button>
-                        </div>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="images/slide1.jpg" class="d-block w-100" alt="Анализ микроструктуры" height="500">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Автоматический анализ микроструктур</h5>
-                                    <p>Точное распознавание дефектов по ГОСТ</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="images/slide2.jpg" class="d-block w-100" alt="Интерфейс программы" height="500">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Интуитивный интерфейс</h5>
-                                    <p>Простое управление для инженеров-металловедов</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="images/slide3.jpg" class="d-block w-100" alt="Интеграция с оборудованием" height="500">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Интеграция с микроскопами</h5>
-                                    <p>Поддержка Olympus, Zeiss, Altami</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </button>
-                    </div>
-                </section>
-
+<!-- Карусель -->
+<section id="carousel-section" class="pt-5 mt-4">
+    <h2 class="border-bottom pb-2">Metallos в действии</h2>
+    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background-image: url('Фото/рис/image (4).jpeg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Автоматический анализ микроструктур</h5>
+                    <p>Точное распознавание дефектов по ГОСТ</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('Фото/загрузить фото или перетащить сюда и начать анализ на экране ноутбука.jpeg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Интуитивный интерфейс</h5>
+                    <p>Простое управление для инженеров-металловедов</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('Фото/рис/микроскоп.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Интеграция с микроскопами</h5>
+                    <p>Поддержка Olympus, Zeiss, Altami</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
                 <!-- Карточки с возможностями -->
                 <section id="features-section" class="py-5">
                     <h2 class="border-bottom pb-2 mb-4">Ключевые возможности</h2>
                     <div class="row g-4">
                         <div class="col-md-4">
-                            <div class="card h-100">
-                                <img src="images/analysis-card.jpg" class="card-img-top" alt="Автоматический анализ" height="200">
+                            <div class="card">
+                                    <img src="Фото/рис/bd0b98d11f0ec031f9ce321a0f764642.png" class="card-img-top w-100" alt="Автоматический анализ" style="object-fit: cover; height: 25vh;">
                                 <div class="card-body">
                                     <h5 class="card-title">Автоматический анализ</h5>
                                     <p class="card-text">Анализ микроструктур по ГОСТ за 1 минуту вместо ручной работы</p>
-                                    <a href="https://www.gost.ru/" class="btn btn-primary" target="_blank">Узнать о ГОСТ</a>
+                                    <a href="https://files.stroyinf.ru/Data2/1/4294835/4294835064.pdf" class="btn btn-primary" target="_blank">Узнать о ГОСТ</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card h-100">
-                                <img src="images/ai-card.jpg" class="card-img-top" alt="ИИ технологии" height="200">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/%D0%90%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D1%81%D0%B2%D0%B5%D1%80%D1%82%D0%BE%D1%87%D0%BD%D0%BE%D0%B9_%D0%BD%D0%B5%D0%B9%D1%80%D0%BE%D0%BD%D0%BD%D0%BE%D0%B9_%D1%81%D0%B5%D1%82%D0%B8.png" class="card-img-top" alt="ИИ технологии" height="200">
                                 <div class="card-body">
                                     <h5 class="card-title">Гибридный ИИ</h5>
                                     <p class="card-text">CNN + U-Net архитектура для максимальной точности распознавания</p>
-                                    <a href="https://www.tensorflow.org/" class="btn btn-primary" target="_blank">TensorFlow</a>
+                                    <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B2%D1%91%D1%80%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F_%D0%BD%D0%B5%D0%B9%D1%80%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F_%D1%81%D0%B5%D1%82%D1%8C" class="btn btn-primary" target="_blank">wikipedia</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card h-100">
-                                <img src="images/report-card.jpg" class="card-img-top" alt="Генерация отчетов" height="200">
+                                <img src="Фото/рис/Advantages-of-a-LIMS.jpg" class="card-img-top" alt="Генерация отчетов" height="200">
                                 <div class="card-body">
                                     <h5 class="card-title">Автоотчеты</h5>
                                     <p class="card-text">Генерация протоколов анализа за 2-3 минуты в соответствии с ГОСТ</p>
-                                    <a href="https://quality-lab.ru/" class="btn btn-primary" target="_blank">Пример отчета</a>
+                                    <a href="тут будет ссылка" class="btn btn-primary" target="_blank">Пример отчета</a>
                                 </div>
                             </div>
                         </div>

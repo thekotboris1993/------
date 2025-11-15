@@ -1,0 +1,171 @@
+/* Тело дока */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #000807, #2c3e50);
+    color: #333;
+    min-height: 100vh;
+}
+/* Основа */
+.content {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+    align-items: flex-start;
+}
+/* Левая часть о себе */
+.content-left {
+    flex: 2;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-right: 15px;
+}
+/* Правая часть - фото */
+.content-right {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-left: 15px;
+}
+/* ЗаГоловки */
+h1 {
+    color: #2c3e50;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+h2 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 22px;
+    border-left: 4px solid #e74c3c;
+    padding-left: 15px;
+}
+/*Форматирование к тексту*/
+p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+/* Списки */
+ul, ol {
+    margin: 15px 0;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+ul li {
+    list-style-type: square;
+    color: #e74c3c;
+}
+
+ol li {
+    list-style-type: decimal;
+    color: #3498db;
+}
+/* Ссылки */
+a {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    font-size: 16px;
+}
+
+a:hover {
+    color: #c0392b;
+    text-decoration: underline;
+}
+
+b {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+i {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+del {
+    color: #95a5a6;
+    text-decoration: line-through;
+}
+
+sup {
+    color: #e74c3c;
+    font-size: 0.8em;
+}
+
+/* Контакты */
+.contact-section {
+    text-align: center;
+    margin: 25px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+/* Рамка изображения */
+.framed-image {
+    border: 3px solid #3498db;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: white;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Стиль изображенич */
+.profile-photo {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.qr-code {
+    max-width: 250px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+/* Подписи к изображениям */
+.image-caption {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Ля мобилки. Адаптивность не упоминается по пущай будет, т.к. флебох может это обеспечить =) */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+    
+    .content-left,
+    .content-right {
+        margin: 10px 0;
+        flex: none;
+    }
+    
+    body {
+        padding: 10px;
+    }
+}
