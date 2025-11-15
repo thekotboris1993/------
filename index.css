@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #000807, #2c3e50);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.9));
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.header h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.project-card {
+    background: white;
+    color: #333;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.project-card:nth-child(2)::before {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.project-card:nth-child(3)::before {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.project-card:nth-child(4)::before {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.project-card:nth-child(5)::before {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    border-color: #3498db;
+}
+
+.project-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.project-card h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.project-card p {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.nav-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.project-card:nth-child(2) .nav-link {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.project-card:nth-child(3) .nav-link {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.project-card:nth-child(4) .nav-link {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.project-card:nth-child(5) .nav-link {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-decoration: none;
+    color: white;
+}
+
+.project-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.project-links .nav-link {
+    margin: 0;
+    padding: 10px 20px;
+    font-size: 14px;
+    min-height: auto;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    margin-top: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.github-link {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.github-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.project-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.project-card:nth-child(1) { animation-delay: 0.1s; }
+.project-card:nth-child(2) { animation-delay: 0.2s; }
+.project-card:nth-child(3) { animation-delay: 0.3s; }
+.project-card:nth-child(4) { animation-delay: 0.4s; }
+.project-card:nth-child(5) { animation-delay: 0.5s; }
+
+/* Плавающий профиль */
+.floating-profile {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    animation: float 3s ease-in-out infinite;
+}
+
+.profile-link {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #3498db;
+    box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
+    transition: all 0.3s ease;
+    background: white;
+    padding: 3px;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.1);
+    border-color: #e74c3c;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.5);
+}
+
+.profile-tooltip {
+    position: absolute;
+    bottom: 100%;
+    right: 50%;
+    transform: translateX(50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.profile-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.profile-link:hover .profile-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Анимация плавания */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-card {
+        padding: 20px;
+    }
+    
+    .project-links .nav-link {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .floating-profile {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-profile {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .profile-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .profile-tooltip {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+}
