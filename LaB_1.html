@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Проверка совершенного числа</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Проверка совершенного числа</h2>
+    <script>
+        // JavaScript
+        function isPerfectNumber(x) {
+            if (x <= 1) return false;
+
+            let sumOfDivisors = 0;
+            
+            for (let i = 1; i <= Math.sqrt(x); i++) {
+                if (x % i === 0) {
+                    sumOfDivisors += i;
+                    if (i !== 1 && i !== x / i) {
+                        sumOfDivisors += x / i;
+                    }
+                }
+            }
+            
+            return sumOfDivisors === x;
+        }
+
+        function checkNumber() {
+            const input = prompt("Введите целое число:");
+            const x = parseInt(input);
+
+            if (isNaN(x)) {
+                // ошибка и повтор
+                const tryAgain = confirm("Ошибка: введено не число.\n\nПопробовать снова?");
+                if (tryAgain) {
+                    checkNumber(); // рекурсия (вызов повторного ввода)
+                } else {
+                    alert("Программа завершена.");
+                }
+            } else {
+                // проверяем является ли число совершенным
+                if (isPerfectNumber(x)) {
+                    alert(`${x} — совершенное число.`);
+                } else {
+                    alert(`${x} — не совершенное число.`);
+                }
+                
+                // спрашиваем повтор
+                const anotherNumber = confirm("Хотите проверить еще одно число?");
+                if (anotherNumber) {
+                    checkNumber(); // рекурсия (вызов нового числа) 
+                } else {
+                    alert("Спасибо за использование программы!");
+                }
+            }
+        }
+
+        // запускаем прогипри при загрузке страницы
+        checkNumber();
+    </script>
+</body>
+</html>
