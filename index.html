@@ -68,7 +68,7 @@
                     <a href="ТЕСТ/Словарь Даля.html" class="nav-link" target="_blank">Словарь Даля</a>
                     <a href="ТЕСТ/текст.html" class="nav-link" target="_blank">Текст</a>
                 </div>
-            </div> <!-- Закрываем div.project-card для теста -->
+            </div>
 
             <!-- Карточка Лабораторная работа 1 -->
             <div class="project-card">
@@ -80,8 +80,8 @@
                     <a href="#lab1-info" class="nav-link" onclick="showLabInfo()">Подробнее</a>
                 </div>
             </div>
-        </div> <!-- Закрываем div.projects-grid -->
-
+        </div> <!-- Закрытие .projects-grid -->
+        
         <div class="footer">
             <p>📁 Репозиторий на GitHub: 
                 <a href="https://github.com/thekotboris1993" class="github-link" target="_blank">
@@ -90,9 +90,9 @@
             </p>
             <p style="margin-top: 10px; opacity: 0.8;">✨ Разработано с использованием HTML5, CSS3 и JavaScript</p>
         </div>
-    </div> <!-- Закрываем div.container -->
+    </div> <!-- Закрытие .container -->
 
-    <!-- Плавающая кнопка профиля -->
+        <!-- Плавающая кнопка профиля -->
     <div class="floating-profile">
         <a href="https://github.com/thekotboris1993" target="_blank" class="profile-link">
             <img src="https://i.redd.it/not-usually-into-painting-but-sometimes-i-dabble-v0-c5qjuo98atif1.jpg?width=598&format=pjpg&auto=webp&s=840c4899c6469342039e2389a02082063641a9ab" 
@@ -120,9 +120,27 @@
                 card.style.animationDelay = (index * 0.1) + 's';
             });
         });
+
+        // Функции для модального окна Лабораторной работы 1
+        function showLabInfo() {
+            const modal = document.getElementById('lab1-modal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('lab1-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Закрытие модального окна при клике вне его
+        window.onclick = function(event) {
+            const modal = document.getElementById('lab1-modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
-</body>
-</html>
-</html>
 </body>
 </html>
