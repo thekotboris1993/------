@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа 2 - JavaScript</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+            font-weight: bold;
+        }
+        
+        .task-number {
+            background: #ff6b6b;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            padding: 10px 25px;
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        code {
+            color: #e83e8c;
+            background: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Заголовок -->
+        <div class="header-section text-center">
+            <h1 class="display-4 fw-bold mb-3">🔧 Лабораторная работа №2</h1>
+            <p class="lead text-muted">Процедурное программирование и рекурсия в JavaScript</p>
+            <div class="mt-4">
+                <a href="index.html" class="btn btn-outline-primary btn-lg">
+                    ← Назад к проектам
+                </a>
+            </div>
+        </div>
+
+        <!-- Задание 1 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="task-number">1</span> Произведение двух максимальных чисел
+            </div>
+            <div class="card-body">
+                <p class="card-text">Функция принимает три числа и возвращает произведение двух максимальных.</p>
+                
+                <div class="mb-3">
+                    <pre><code>function multiplyTwoMax(a, b, c) {
+    const sorted = [a, b, c].sort((x, y) => y - x);
+    return sorted[0] * sorted[1];
+}</code></pre>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <input type="number" class="form-control" id="num1" placeholder="Число 1" value="5">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" class="form-control" id="num2" placeholder="Число 2" value="3">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" class="form-control" id="num3" placeholder="Число 3" value="8">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary w-100" onclick="testTask1()">Проверить</button>
+                    </div>
+                </div>
+                
+                <div id="result1" class="result-box">
+                    📊 Результат появится здесь...
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 2 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="task-number">2</span> Функция с параметром по умолчанию
+            </div>
+            <div class="card-body">
+                <p class="card-text">Функция принимает имя и звание (по умолчанию "рядовой").</p>
+                
+                <div class="mb-3">
+                    <pre><code>function getSoldierInfo(name, rank = "рядовой") {
+    return `${name} - ${rank}`;
+}</code></pre>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="soldierName" placeholder="Имя" value="Иванов">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="soldierRank" placeholder="Звание (необязательно)">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="testTask2()">Проверить</button>
+                    </div>
+                </div>
+                
+                <div id="result2" class="result-box">
+                    👮 Результат появится здесь...
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 3 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="task-number">3</span> Функция высшего порядка
+            </div>
+            <div class="card-body">
+                <p class="card-text">Принимает функцию и параметры, возвращает результат её вызова.</p>
+                
+                <div class="mb-3">
+                    <pre><code>function executeFunction(func, ...args) {
+    return func(...args);
+}
+
+// Пример:
+const sum = (a, b) => a + b;
+executeFunction(sum, 5, 3); // 8</code></pre>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" id="funcParam1" placeholder="Число 1" value="10">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" id="funcParam2" placeholder="Число 2" value="5">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="testTask3()">Выполнить</button>
+                    </div>
+                </div>
+                
+                <div id="result3" class="result-box">
+                    🔧 Результат появится здесь...
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 4 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="task-number">4</span> Функция, возвращающая стрелочные выражения
+            </div>
+            <div class="card-body">
+                <p class="card-text">Для чётных чисел возвращает квадрат, для нечётных - куб.</p>
+                
+                <div class="mb-3">
+                    <pre><code>function getPowerFunction(num) {
+    if (num % 2 === 0) {
+        return (x) => x * x; // квадрат
+    } else {
+        return (x) => x * x * x; // куб
+    }
+}</code></pre>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-8">
+                        <input type="number" class="form-control" id="checkNumber" placeholder="Введите число" value="7">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="testTask4()">Проверить</button>
+                    </div>
+                </div>
+                
+                <div id="result4" class="result-box">
+                    ⚡ Результат появится здесь...
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 5 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="task-number">5</span> Рекурсивная функция факториала
+            </div>
+            <div class="card-body">
+                <p class="card-text">Рекурсивная функция для расчёта факториала числа n.</p>
+                
+                <div class="mb-3">
+                    <pre><code>function factorial(n) {
+    if (n === 0 || n === 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}</code></pre>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-8">
+                        <input type="number" class="form-control" id="factorialNumber" 
+                               placeholder="Введите число (0-20)" value="5" min="0" max="20">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="testTask5()">Вычислить</button>
+                    </div>
+                </div>
+                
+                <div id="result5" class="result-box">
+                    🧮 Результат появится здесь...
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка тестирования всех заданий -->
+        <div class="text-center mt-4">
+            <button class="btn btn-success btn-lg" onclick="testAll()">
+                🚀 Протестировать все задания
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ===== ЗАДАНИЕ 1 =====
+        function multiplyTwoMax(a, b, c) {
+            const sorted = [a, b, c].sort((x, y) => y - x);
+            return sorted[0] * sorted[1];
+        }
+
+        function testTask1() {
+            const a = parseInt(document.getElementById('num1').value) || 0;
+            const b = parseInt(document.getElementById('num2').value) || 0;
+            const c = parseInt(document.getElementById('num3').value) || 0;
+            
+            const result = multiplyTwoMax(a, b, c);
+            document.getElementById('result1').innerHTML = 
+                `✅ Результат: <strong>${a} × ${b} × ${c}</strong><br>
+                 📊 Произведение двух максимальных = <strong>${result}</strong>`;
+        }
+
+        // ===== ЗАДАНИЕ 2 =====
+        function getSoldierInfo(name, rank = "рядовой") {
+            return `${name} - ${rank}`;
+        }
+
+        function testTask2() {
+            const name = document.getElementById('soldierName').value || "Неизвестный";
+            const rank = document.getElementById('soldierRank').value;
+            
+            let result;
+            if (rank) {
+                result = getSoldierInfo(name, rank);
+                document.getElementById('result2').innerHTML = 
+                    `👮 Использовано 2 параметра: <strong>"${result}"</strong>`;
+            } else {
+                result = getSoldierInfo(name);
+                document.getElementById('result2').innerHTML = 
+                    `👮 Использован 1 параметр (ранг по умолчанию): <strong>"${result}"</strong>`;
+            }
+        }
+
+        // ===== ЗАДАНИЕ 3 =====
+        function executeFunction(func, ...args) {
+            return func(...args);
+        }
+
+        function testTask3() {
+            const a = parseInt(document.getElementById('funcParam1').value) || 0;
+            const b = parseInt(document.getElementById('funcParam2').value) || 0;
+            
+            const sumFunction = (x, y) => x + y;
+            const result = executeFunction(sumFunction, a, b);
+            
+            document.getElementById('result3').innerHTML = 
+                `🔧 Вызвано: executeFunction((x, y) => x + y, ${a}, ${b})<br>
+                 ✅ Результат: <strong>${result}</strong>`;
+        }
+
+        // ===== ЗАДАНИЕ 4 =====
+        function getPowerFunction(num) {
+            if (num % 2 === 0) {
+                return (x) => x * x;
+            } else {
+                return (x) => x * x * x;
+            }
+        }
+
+        function testTask4() {
+            const num = parseInt(document.getElementById('checkNumber').value) || 0;
+            
+            const powerFunc = getPowerFunction(num);
+            const result = powerFunc(num);
+            
+            const operation = num % 2 === 0 ? "квадрат" : "куб";
+            const symbol = num % 2 === 0 ? "²" : "³";
+            
+            document.getElementById('result4').innerHTML = 
+                `⚡ Число ${num} — <strong>${num % 2 === 0 ? "чётное" : "нечётное"}</strong><br>
+                 🔢 Функция вернула: <code>(x) => x${symbol}</code><br>
+                 📈 Вычисление: ${num}${symbol} = <strong>${result}</strong>`;
+        }
+
+        // ===== ЗАДАНИЕ 5 =====
+        function factorial(n) {
+            if (n < 0) return "Ошибка: факториал отрицательного числа не определён";
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+            return n * factorial(n - 1);
+        }
+
+        function testTask5() {
+            const n = parseInt(document.getElementById('factorialNumber').value) || 0;
+            
+            if (n > 20) {
+                document.getElementById('result5').innerHTML = 
+                    `⚠️ Внимание: факториал ${n}! будет очень большим числом`;
+                return;
+            }
+            
+            const result = factorial(n);
+            
+            let process = "";
+            for (let i = n; i > 0; i--) {
+                process += i;
+                if (i > 1) process += " × ";
+            }
+            if (n > 0) process += " = ";
+            
+            document.getElementById('result5').innerHTML = 
+                `🧮 Рекурсивный расчёт факториала ${n}!<br>
+                 🔄 Процесс: ${process}<strong>${result}</strong>`;
+        }
+
+        // ===== ТЕСТИРОВАНИЕ ВСЕХ ЗАДАНИЙ =====
+        function testAll() {
+            testTask1();
+            testTask2();
+            testTask3();
+            testTask4();
+            testTask5();
+            
+            // Анимация
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(0)';
+                    }, 300);
+                }, index * 100);
+            });
+        }
+
+        // Автозапуск при загрузке
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testAll, 1000);
+        });
+    </script>
+</body>
+</html>
