@@ -77,19 +77,16 @@
                 <p>Проверка совершенного числа. Программа определяет, равно ли число сумме всех своих собственных делителей (например, 6 = 1 + 2 + 3).</p>
                 <div class="project-links">
                     <a href="LaB_1.html" class="nav-link">Запустить программу</a>
-                    <a href="#lab1-info" class="nav-link" onclick="showLabInfo()">Подробнее</a>
                 </div>
             </div>
-        </div> <!-- Закрытие .projects-grid -->
 
-                    <!-- Карточка Лабораторная работа 2 -->
+            <!-- Карточка Лабораторная работа 2 -->
             <div class="project-card">
-                <span class="project-icon">🔢</span>
+                <span class="project-icon">🔧</span>
                 <h2>Лабораторная работа 2</h2>
-                <p>Задания с 1 по 5
+                <p>Процедурное программирование и рекурсия в JavaScript. 5 заданий по функциям, параметрам по умолчанию и рекурсии.</p>
                 <div class="project-links">
-                    <a href="LaB_2.html" class="nav-link">Запустить программу</a>
-                    <a href="#lab1-info" class="nav-link" onclick="showLabInfo()">Подробнее</a>
+                    <a href="LaB_2.html" class="nav-link">Открыть задания</a>
                 </div>
             </div>
         </div> <!-- Закрытие .projects-grid -->
@@ -104,7 +101,59 @@
         </div>
     </div> <!-- Закрытие .container -->
 
-        <!-- Плавающая кнопка профиля -->
+    <!-- Модальное окно для Лабораторной работы 1 -->
+    <div id="lab1-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);">
+        <div class="modal-content" style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; margin: 10% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
+            <span class="close-modal" onclick="closeModal('lab1')" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #e74c3c;">&times;</span>
+            <h2 style="color: #f39c12; margin-bottom: 20px;">🔢 Лабораторная работа 1</h2>
+            <h3 style="color: #3498db; margin-bottom: 15px;">Проверка совершенного числа</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #2ecc71;">📋 Описание:</h4>
+                <p>Программа проверяет, является ли введённое пользователем число совершенным.</p>
+                <p><strong>Совершенное число</strong> — это натуральное число, равное сумме всех своих собственных делителей (то есть всех положительных делителей, отличных от самого числа).</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <button onclick="window.open('LaB_1.html', '_blank')" style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; transition: all 0.3s ease;">
+                    🚀 Запустить программу
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для Лабораторной работы 2 -->
+    <div id="lab2-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);">
+        <div class="modal-content" style="background: linear-gradient(135deg, #1a2980, #26d0ce); color: white; margin: 10% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
+            <span class="close-modal" onclick="closeModal('lab2')" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #e74c3c;">&times;</span>
+            <h2 style="color: #FFD700; margin-bottom: 20px;">🔧 Лабораторная работа 2</h2>
+            <h3 style="color: #4CAF50; margin-bottom: 15px;">Процедурное программирование и рекурсия</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #2ecc71;">📋 Задания:</h4>
+                <ul style="padding-left: 20px;">
+                    <li>1. Произведение двух максимальных чисел</li>
+                    <li>2. Функция с параметром по умолчанию</li>
+                    <li>3. Функция высшего порядка</li>
+                    <li>4. Возврат стрелочных выражений</li>
+                    <li>5. Рекурсивная функция факториала</li>
+                </ul>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #2ecc71;">🎯 Цели:</h4>
+                <p>Изучение основ процедурного программирования, функций, рекурсии и функциональных выражений в JavaScript.</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <button onclick="window.open('LaB_2.html', '_blank')" style="background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; transition: all 0.3s ease;">
+                    🚀 Открыть задания
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Плавающая кнопка профиля -->
     <div class="floating-profile">
         <a href="https://github.com/thekotboris1993" target="_blank" class="profile-link">
             <img src="https://i.redd.it/not-usually-into-painting-but-sometimes-i-dabble-v0-c5qjuo98atif1.jpg?width=598&format=pjpg&auto=webp&s=840c4899c6469342039e2389a02082063641a9ab" 
@@ -119,9 +168,15 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = this.getAttribute('href');
+                if (target !== '#') {
+                    const element = document.querySelector(target);
+                    if (element) {
+                        element.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
             });
         });
 
@@ -133,24 +188,30 @@
             });
         });
 
-        // Функции для модального окна Лабораторной работы 1
-        function showLabInfo() {
+        // Функции для модальных окон
+        function showLab1Info() {
             const modal = document.getElementById('lab1-modal');
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            const modal = document.getElementById('lab1-modal');
+        function showLab2Info() {
+            const modal = document.getElementById('lab2-modal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(labId) {
+            const modal = document.getElementById(labId + '-modal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
         // Закрытие модального окна при клике вне его
         window.onclick = function(event) {
-            const modal = document.getElementById('lab1-modal');
-            if (event.target == modal) {
-                closeModal();
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         }
     </script>
