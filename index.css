@@ -323,3 +323,10 @@ body {
         padding: 6px 10px;
     }
 }
+.project-card:nth-child(9)::before {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+}
+
+.project-card:nth-child(9) .nav-link {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+}
