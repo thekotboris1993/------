@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Hola! - Тесты по испанскому языку</title>
+    <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="header">
+            <h1>¡Hola, estudiante! 👋</h1>
+            <p>Добро пожаловать на платформу для практики испанского языка. Выбери тему, проверь свои знания и улучшай результат!</p>
+            <!-- Индикатор активного теста (для примера) В разработке -->
+            <div class="active-test">
+                <span class="active-badge">Сейчас активно</span>
+                <p class="active-text">В разработке</p>
+            </div>
+        </div>
+
+        <!-- Сетка с карточками тестов -->
+        <div class="projects-grid">
+            <!-- Карточка теста 1  (                    <span class="meta-item">🏆 15 лидеров</span>)-->
+            <div class="test-card">
+                <span class="test-icon">🔄</span>
+                <h2>Глаголы: Presente</h2>
+                <p>Проверь знание правильных и неправильных глаголов в настоящем времени. Включает все ключевые исключения.</p>
+                <div class="test-meta">
+                    <span class="meta-item">⏱️ 15 мин</span>
+                    <span class="meta-item">❓ 20 вопросов</span>
+                </div>
+                <a href="test_presente.html" class="nav-link">Начать тест</a>
+            </div>
+
+            <!-- Карточка теста 2 -->
+            <div class="test-card">
+                <span class="test-icon">🍔</span>
+                <h2>Лексика: Comida</h2>
+                <p>Продукты, блюда, напитки и всё, что связано с едой. Идеально перед поездкой в испанский ресторан.</p>
+                <div class="test-meta">
+                    <span class="meta-item">⏱️ 15 мин</span>
+                    <span class="meta-item">❓ 25 вопросов</span>
+                </div>
+                <a href="test_comida.html" class="nav-link">Начать тест</a>
+            </div>
+
+            <!-- Карточка теста 3 -->
+            <div class="test-card">
+                <span class="test-icon">🎭</span>
+                <h2>Порядок слов</h2>
+                <p>Сложная, но важная тема: место подлежащего, дополнений и наречий в утверждениях и вопросах.</p>
+                <div class="test-meta">
+                    <span class="meta-item">⏱️ 12 мин</span>
+                    <span class="meta-item">❓ 18 вопросов</span>
+                </div>
+                <a href="test_orden.html" class="nav-link">Начать тест</a>
+            </div>
+
+            <!-- Карточка теста 4 -->
+            <div class="test-card">
+                <span class="test-icon">🗺️</span>
+                <h2>География Испании</h2>
+                <p>Регионы, столицы, достопримечательности и культурные особенности. Для тех, кто любит путешествовать.</p>
+                <div class="test-meta">
+                    <span class="meta-item">⏱️ 20 мин</span>
+                    <span class="meta-item">❓ 30 вопросов</span>
+                </div>
+                <a href="test_geografia.html" class="nav-link">Начать тест</a>
+            </div>
+
+            <!-- Карточка для учителя (админка) -->
+            <div class="test-card admin-card">
+                <span class="test-icon">👩‍🏫</span>
+                <h2>Панель преподавателя</h2>
+                <p>Доступ к статистике, результатам студентов и управлению тестами. Только для авторизованных пользователей.</p>
+                <a href="admin_login.html" class="nav-link">Войти как преподаватель</a>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <div class="footer">
+            <p>📚 Испанский язык с любовью от <strong> profesora Evelyn </strong></p>
+            <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9em;">
+                Платформа находится в разработке. Все тесты проверяются вручную. 
+                <a href="mailto:teacher@example.com" style="color: #FFD700;">Сообщить об ошибке</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Плавающая кнопка с глобальной статистикой В разработке-->
+    <div class="floating-stats">
+        <div class="stats-content">
+            <span class="stats-icon">📈</span>
+            <span class="stats-text">Всего пройдено(В разработке): <strong></strong> </span>
+        </div>
+    </div>
+
+    <script>
+        // Простая анимация появления карточек
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.test-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
