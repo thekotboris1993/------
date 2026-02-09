@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход для преподавателя | Испанский язык</title>
+    <link rel="stylesheet" href="admin_login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="teacher-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <h1>Панель преподавателя</h1>
+            <p>Доступ к результатам и управлению тестами</p>
+        </div>
+        
+        <div class="login-card">
+            <h2><i class="fas fa-lock"></i> Авторизация</h2>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username"><i class="fas fa-user"></i> Логин</label>
+                    <input type="text" id="username" placeholder="Введите логин" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password"><i class="fas fa-key"></i> Пароль</label>
+                    <input type="password" id="password" placeholder="Введите пароль" required>
+                    <button type="button" id="togglePassword" class="toggle-password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <span>Запомнить меня</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </button>
+                
+                <div class="login-footer">
+                    <p>Демо доступ:</p>
+                    <p><strong>Логин:</strong> teacher | <strong>Пароль:</strong> spanish123</p>
+                </div>
+            </form>
+            
+            <div id="errorMessage" class="error-message"></div>
+            
+            <div class="back-link">
+                <a href="hub.html"><i class="fas fa-arrow-left"></i> Вернуться к тестам</a>
+            </div>
+        </div>
+        
+        <div class="security-notice">
+            <p><i class="fas fa-shield-alt"></i> Доступ только для авторизованных преподавателей</p>
+        </div>
+    </div>
+    
+    <script src="admin_login.js"></script>
+    <!-- После формы входа добавьте -->
+<div class="debug-info" style="display: none; margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px; font-size: 12px;">
+    <p><strong>Для разработчиков:</strong></p>
+    <p>Доступы:</p>
+    <ul>
+        <li>Логин: <code>teacher</code>, Пароль: <code>spanish123</code></li>
+        <li>Логин: <code>assistant</code>, Пароль: <code>1234</code></li>
+    </ul>
+</div>
+
+<script>
+// Показать отладочную информацию на локальном хосте
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    document.querySelector('.debug-info').style.display = 'block';
+}
+</script>
+</body>
+</html>

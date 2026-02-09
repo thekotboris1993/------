@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет преподавателя | Испанский язык</title>
+    <link rel="stylesheet" href="admin_dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Панель преподавателя</span>
+            </div>
+            
+            <div class="nav-user">
+                <span id="userName">Загрузка...</span>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="dashboard-container">
+        <!-- Боковое меню -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 id="userFullName">Преподаватель</h3>
+                <p id="userRole">Администратор</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a href="#"><i class="fas fa-chart-bar"></i> Результаты тестов</a>
+                </li>
+                <li>
+                    <a href="#" id="manageTests"><i class="fas fa-tasks"></i> Управление тестами</a>
+                </li>
+                <li>
+                    <a href="#" id="viewStatistics"><i class="fas fa-chart-pie"></i> Статистика</a>
+                </li>
+                <li>
+                    <a href="#" id="studentGroups"><i class="fas fa-users"></i> Группы студентов</a>
+                </li>
+                <li>
+                    <a href="hub.html" target="_blank"><i class="fas fa-external-link-alt"></i> Перейти к тестам</a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-dot online"></span>
+                    <span>Система активна</span>
+                </div>
+                <p class="last-login">Последний вход: <span id="lastLogin">Сегодня</span></p>
+            </div>
+        </aside>
+        
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Заголовок и фильтры -->
+            <div class="content-header">
+                <h1><i class="fas fa-chart-bar"></i> Результаты тестов</h1>
+                
+                <div class="filters-panel">
+                    <div class="filter-group">
+                        <label for="testFilter"><i class="fas fa-filter"></i> Тест:</label>
+                        <select id="testFilter">
+                            <option value="all">Все тесты</option>
+                            <option value="presente">Глаголы: Presente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="dateFilter"><i class="fas fa-calendar"></i> Дата:</label>
+                        <select id="dateFilter">
+                            <option value="all">Все время</option>
+                            <option value="today">Сегодня</option>
+                            <option value="week">За неделю</option>
+                            <option value="month">За месяц</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="sortBy"><i class="fas fa-sort"></i> Сортировка:</label>
+                        <select id="sortBy">
+                            <option value="date-desc">Сначала новые</option>
+                            <option value="date-asc">Сначала старые</option>
+                            <option value="score-desc">По баллам (убыв.)</option>
+                            <option value="score-asc">По баллам (возр.)</option>
+                        </select>
+                    </div>
+                    
+                    <button id="refreshBtn" class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                    
+                    <button id="exportBtn" class="export-btn">
+                        <i class="fas fa-download"></i> Экспорт
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Статистика -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon total-tests">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalTests">0</h3>
+                        <p>Всего пройдено тестов</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon avg-score">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="avgScore">0.0</h3>
+                        <p>Средний балл</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon unique-students">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="uniqueStudents">0</h3>
+                        <p>Уникальных студентов</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon completion-rate">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completionRate">0%</h3>
+                        <p>Полных прохождений</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Таблица результатов -->
+            <div class="results-table-container">
+                <div class="table-header">
+                    <h3><i class="fas fa-list"></i> Детализация результатов</h3>
+                    <div class="table-actions">
+                        <input type="text" id="searchInput" placeholder="Поиск по имени студента...">
+                        <button id="clearFilters" class="clear-btn">
+                            <i class="fas fa-times"></i> Сбросить фильтры
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-scroll">
+                    <table id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>ID</th>
+                                <th>Студент</th>
+                                <th>Тест</th>
+                                <th>Результат</th>
+                                <th>Баллы</th>
+                                <th>Время</th>
+                                <th>Дата</th>
+                                <th>Детали</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Данные будут загружены динамически -->
+                            <tr id="loadingRow">
+                                <td colspan="10">
+                                    <div class="loading-message">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        Загрузка результатов...
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-footer">
+                    <div class="pagination-info">
+                        Показано <span id="shownCount">0</span> из <span id="totalCount">0</span> записей
+                    </div>
+                    
+                    <div class="pagination-controls">
+                        <button id="prevPage" class="page-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="page-numbers">
+                            Страница <span id="currentPage">1</span> из <span id="totalPages">1</span>
+                        </span>
+                        <button id="nextPage" class="page-btn" disabled>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Графики (будут добавлены позже) -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h4><i class="fas fa-chart-line"></i> Активность по дням</h4>
+                    <div class="chart-placeholder">
+                        <p>График активности будет отображаться здесь</p>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h4><i class="fas fa-chart-pie"></i> Распределение оценок</h4>
+                    <div class="chart-placeholder">
+                        <p>Круговая диаграмма будет отображаться здесь</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Модальное окно деталей результата -->
+    <div id="resultDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Детали результата</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="modalBody">
+                <!-- Контент будет загружен динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Скрипты -->
+    <script src="admin_dashboard.js"></script>
+    <script src="admin_auth.js"></script>
+</body>
+</html>
