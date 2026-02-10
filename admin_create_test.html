@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание теста | Конструктор</title>
+    <link rel="stylesheet" href="admin_create_test.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-magic"></i>
+                <span>Конструктор тестов</span>
+            </div>
+            <div class="nav-user">
+                <span id="userName">Преподаватель</span>
+                <button onclick="window.location.href='admin_dashboard.html'" class="nav-btn">
+                    <i class="fas fa-tachometer-alt"></i> Панель
+                </button>
+                <button onclick="window.location.href='hub.html'" class="nav-btn">
+                    <i class="fas fa-home"></i> Хаб
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="constructor-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-cog"></i> Настройки теста</h3>
+                <div class="form-group">
+                    <label for="testTitle">Название теста:</label>
+                    <input type="text" id="testTitle" placeholder="Например: Глаголы в прошедшем времени">
+                </div>
+                <div class="form-group">
+                    <label for="testDescription">Описание:</label>
+                    <textarea id="testDescription" rows="3" placeholder="Краткое описание теста..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="testCategory">Категория:</label>
+                    <select id="testCategory">
+                        <option value="grammar">Грамматика</option>
+                        <option value="vocabulary">Лексика</option>
+                        <option value="listening">Аудирование</option>
+                        <option value="reading">Чтение</option>
+                        <option value="culture">Культура</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="testTime">Время (мин):</label>
+                        <input type="number" id="testTime" min="5" max="120" value="15">
+                    </div>
+                    <div class="form-group half">
+                        <label for="testQuestions">Вопросов:</label>
+                        <input type="number" id="testQuestions" min="5" max="50" value="20">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="testLevel">Уровень сложности:</label>
+                    <select id="testLevel">
+                        <option value="beginner">Начальный (A1-A2)</option>
+                        <option value="intermediate" selected>Средний (B1-B2)</option>
+                        <option value="advanced">Продвинутый (C1-C2)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-plus-circle"></i> Добавить вопрос</h3>
+                <div class="question-types">
+                    <button class="type-btn" data-type="choice" onclick="addQuestion('choice')">
+                        <i class="fas fa-dot-circle"></i> Выбор ответа
+                    </button>
+                    <button class="type-btn" data-type="input" onclick="addQuestion('input')">
+                        <i class="fas fa-keyboard"></i> Ввод ответа
+                    </button>
+                    <button class="type-btn" data-type="multiple" onclick="addQuestion('multiple')">
+                        <i class="fas fa-check-square"></i> Несколько ответов
+                    </button>
+                    <button class="type-btn" data-type="matching" onclick="addQuestion('matching')">
+                        <i class="fas fa-random"></i> Соответствие
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-save"></i> Действия</h3>
+                <div class="action-buttons">
+                    <button class="action-btn save" onclick="saveTest()">
+                        <i class="fas fa-save"></i> Сохранить тест
+                    </button>
+                    <button class="action-btn preview" onclick="previewTest()">
+                        <i class="fas fa-eye"></i> Предпросмотр
+                    </button>
+                    <button class="action-btn export" onclick="exportTest()">
+                        <i class="fas fa-download"></i> Экспорт
+                    </button>
+                    <button class="action-btn clear" onclick="clearAll()">
+                        <i class="fas fa-trash"></i> Очистить всё
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="stats">
+                    <p><i class="fas fa-question-circle"></i> Вопросов: <span id="totalQuestionsCount">0</span></p>
+                    <p><i class="fas fa-clock"></i> Примерное время: <span id="estimatedTime">0 мин</span></p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Основная рабочая область -->
+        <main class="workspace">
+            <div class="workspace-header">
+                <h1><i class="fas fa-edit"></i> Редактор теста</h1>
+                <div class="workspace-controls">
+                    <button class="control-btn" onclick="togglePreview()">
+                        <i class="fas fa-mobile-alt"></i> Адаптивный просмотр
+                    </button>
+                    <button class="control-btn" onclick="arrangeQuestions()">
+                        <i class="fas fa-sort-amount-down"></i> Упорядочить
+                    </button>
+                    <button class="control-btn" onclick="importQuestions()">
+                        <i class="fas fa-file-import"></i> Импорт
+                    </button>
+                </div>
+            </div>
+
+            <!-- Список вопросов -->
+            <div class="questions-list" id="questionsList">
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>Пока нет вопросов</h3>
+                    <p>Нажмите кнопку "Добавить вопрос" в боковой панели, чтобы начать создание теста</p>
+                </div>
+                <!-- Вопросы будут добавляться сюда динамически -->
+            </div>
+
+            <!-- Предпросмотр теста -->
+            <div class="preview-container" id="previewContainer" style="display: none;">
+                <div class="preview-header">
+                    <h2><i class="fas fa-eye"></i> Предпросмотр теста</h2>
+                    <button class="close-preview" onclick="closePreview()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="preview-content" id="previewContent">
+                    <!-- Предпросмотр будет загружен сюда -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальное окно экспорта -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-download"></i> Экспорт теста</h2>
+                <button class="close-modal" onclick="closeExportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <label>
+                        <input type="radio" name="exportFormat" value="json" checked> JSON формат
+                    </label>
+                    <label>
+                        <input type="radio" name="exportFormat" value="html"> HTML страница
+                    </label>
+                    <label>
+                        <input type="radio" name="exportFormat" value="text"> Текстовый формат
+                    </label>
+                </div>
+                <div class="export-preview">
+                    <h4>Предпросмотр данных:</h4>
+                    <pre id="exportPreview"></pre>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="downloadExport()">
+                        <i class="fas fa-download"></i> Скачать
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyToClipboard()">
+                        <i class="fas fa-copy"></i> Копировать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin_create_test.js"></script>
+</body>
+</html>
