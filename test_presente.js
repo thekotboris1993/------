@@ -1,4 +1,4 @@
-// Данные теста: 20 вопросов (10 с выбором ответа, 10 с вводом)
+// Данные теста: 20 вопросов (10 с выбором, 10 с вводом)
 const testQuestions = [
     // Вопросы с выбором ответа (10 шт)
     {
@@ -141,6 +141,7 @@ let currentQuestionIndex = 0;
 let userAnswers = new Array(testQuestions.length).fill(null);
 let startTime, endTime;
 let timerInterval;
+let testResults = []; // Для хранения результатов
 
 // Элементы DOM
 const stepElements = document.querySelectorAll('.step');
@@ -176,6 +177,7 @@ function goToStep(stepNumber) {
 function initTest() {
     currentQuestionIndex = 0;
     userAnswers.fill(null);
+    testResults = [];
     startTime = new Date();
     startTimer(15 * 60); // 15 минут для 20 вопросов
     shuffleQuestions();
@@ -201,7 +203,6 @@ function displayQuestion(index) {
     optionsContainer.innerHTML = '';
     
     if (question.type === 'choice') {
-        // Отображение вопросов с выбором ответа
         question.options.forEach((option, optionIndex) => {
             const optionElement = document.createElement('div');
             optionElement.className = 'option';
@@ -228,14 +229,13 @@ function displayQuestion(index) {
             optionsContainer.appendChild(optionElement);
         });
     } else if (question.type === 'input') {
-        // Отображение вопросов с вводом ответа
         const inputContainer = document.createElement('div');
         inputContainer.className = 'input-answer-container';
         
         const inputElement = document.createElement('input');
         inputElement.type = 'text';
         inputElement.className = 'answer-input';
-        inputElement.placeholder = 'Введите ваш ответ здесь...';
+        inputElement.placeholder = 'Введите ответ...';
         
         if (userAnswers[index] !== null) {
             inputElement.value = userAnswers[index];
@@ -312,38 +312,99 @@ function finishTest() {
     const seconds = Math.floor((timeDiff % 60000) / 1000);
     
     window.testTimeSpent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Рассчитываем и сохраняем результаты
+    calculateResults();
+    saveTestResult();
+    
     goToStep(3);
+}
+
+// Расчет результатов
+function calculateResults() {
+    testResults = [];
+    
+    testQuestions.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        let isCorrect = false;
+        let correctAnswer = '';
+        
+        if (question.type === 'choice') {
+            isCorrect = userAnswer === question.correct;
+            correctAnswer = question.options[question.correct];
+        } else if (question.type === 'input') {
+            const normalizedUserAnswer = userAnswer ? userAnswer.toLowerCase().trim() : '';
+            const normalizedCorrectAnswer = question.answer.toLowerCase().trim();
+            isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
+            correctAnswer = question.answer;
+        }
+        
+        testResults.push({
+            question: question.question,
+            userAnswer: userAnswer !== null ? 
+                (question.type === 'choice' ? question.options[userAnswer] : userAnswer) : 
+                'Нет ответа',
+            correctAnswer: correctAnswer,
+            isCorrect: isCorrect
+        });
+    });
+}
+
+// Функция сохранения результата теста
+function saveTestResult() {
+    const correctCount = testResults.filter(r => r.isCorrect).length;
+    const percentage = Math.round((correctCount / testQuestions.length) * 100);
+    
+    // Создаем объект результата
+    const testResult = {
+        id: Date.now() + Math.random(),
+        studentName: studentName || 'Анонимный студент',
+        testName: 'Глаголы: Presente',
+        score: correctCount,  // ВАЖНО: число!
+        totalQuestions: testQuestions.length,
+        timeSpent: window.testTimeSpent || '0:00',
+        date: new Date().toISOString(),
+        percentage: percentage
+    };
+    
+    console.log('Сохранение результата Presente:', testResult);
+    
+    // Загружаем существующие результаты
+    let savedResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+    
+    // Добавляем новый результат
+    savedResults.push(testResult);
+    
+    // Сохраняем обратно (ограничим до 1000 записей)
+    if (savedResults.length > 1000) {
+        savedResults = savedResults.slice(-1000);
+    }
+    
+    localStorage.setItem('testResults', JSON.stringify(savedResults));
+    
+    // Также сохраняем для локальной статистики
+    updateLocalStats();
+}
+
+// Функция обновления локальной статистики
+function updateLocalStats() {
+    let totalTests = localStorage.getItem('totalTestsCompleted') || 0;
+    totalTests = parseInt(totalTests) + 1;
+    localStorage.setItem('totalTestsCompleted', totalTests);
+    
+    if (studentName) {
+        let students = JSON.parse(localStorage.getItem('testStudents') || '[]');
+        if (!students.includes(studentName)) {
+            students.push(studentName);
+            localStorage.setItem('testStudents', JSON.stringify(students));
+        }
+    }
 }
 
 // Показать результаты
 function showResults() {
-    let correctCount = 0;
-    const resultDetails = [];
-    
-    testQuestions.forEach((question, index) => {
-        let isCorrect = false;
-        let userAnswer = userAnswers[index];
-        
-        if (question.type === 'choice') {
-            isCorrect = userAnswer === question.correct;
-            userAnswer = userAnswer !== null ? question.options[userAnswer] : 'Нет ответа';
-        } else if (question.type === 'input') {
-            // Для вопросов с вводом: нечувствительность к регистру и пробелам
-            const normalizedUserAnswer = userAnswer ? userAnswer.toLowerCase().trim() : '';
-            const normalizedCorrectAnswer = question.answer.toLowerCase().trim();
-            isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
-            userAnswer = userAnswer || 'Нет ответа';
-        }
-        
-        if (isCorrect) correctCount++;
-        
-        resultDetails.push({
-            question: question.question,
-            userAnswer: userAnswer,
-            correctAnswer: question.type === 'choice' ? question.options[question.correct] : question.answer,
-            isCorrect: isCorrect
-        });
-    });
+    const correctCount = testResults.filter(r => r.isCorrect).length;
+    const percentage = Math.round((correctCount / testQuestions.length) * 100);
     
     // Обновление интерфейса результатов
     document.getElementById('studentGreeting').textContent = 
@@ -354,14 +415,13 @@ function showResults() {
     document.getElementById('wrongCount').textContent = testQuestions.length - correctCount;
     document.getElementById('timeSpent').textContent = window.testTimeSpent || '0:00';
     
-    const percent = Math.round((correctCount / testQuestions.length) * 100);
-    document.getElementById('scorePercent').textContent = `${percent}%`;
+    document.getElementById('scorePercent').textContent = `${percentage}%`;
     
     // Анимация круга прогресса
     const circle = document.querySelector('.progress-ring-fill');
     const radius = 90;
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (percent / 100) * circumference;
+    const offset = circumference - (percentage / 100) * circumference;
     
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
     circle.style.strokeDashoffset = circumference;
@@ -373,19 +433,19 @@ function showResults() {
     
     // Мотивационное сообщение
     const resultMessage = document.getElementById('resultMessage');
-    if (percent >= 90) {
+    if (percentage >= 90) {
         resultMessage.innerHTML = `
             <h3><i class="fas fa-trophy"></i> ¡Excelente! Превосходно! (${correctCount}/20)</h3>
             <p>Ты отлично знаешь глаголы Presente! ¡Felicidades!</p>
         `;
         resultMessage.style.borderLeftColor = '#27ae60';
-    } else if (percent >= 75) {
+    } else if (percentage >= 75) {
         resultMessage.innerHTML = `
             <h3><i class="fas fa-star"></i> ¡Muy bien! Очень хорошо! (${correctCount}/20)</h3>
             <p>Отличный результат! Ты хорошо справился с тестом.</p>
         `;
         resultMessage.style.borderLeftColor = '#f1bf00';
-    } else if (percent >= 50) {
+    } else if (percentage >= 50) {
         resultMessage.innerHTML = `
             <h3><i class="fas fa-check-circle"></i> ¡Bien! Хорошо! (${correctCount}/20)</h3>
             <p>Неплохо, но есть над чем поработать. Повтори материал!</p>
@@ -403,7 +463,7 @@ function showResults() {
     const answersDetails = document.getElementById('answersDetails');
     answersDetails.innerHTML = '';
     
-    resultDetails.forEach((detail, index) => {
+    testResults.forEach((detail, index) => {
         const detailElement = document.createElement('div');
         detailElement.className = `question-detail ${detail.isCorrect ? 'correct' : 'incorrect'}`;
         

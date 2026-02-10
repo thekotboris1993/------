@@ -141,6 +141,7 @@ let currentQuestionIndex = 0;
 let userAnswers = new Array(testQuestions.length).fill(null);
 let startTime, endTime;
 let timerInterval;
+let testResults = []; // Для хранения результатов
 
 // Элементы DOM
 const stepElements = document.querySelectorAll('.step');
@@ -176,6 +177,7 @@ function goToStep(stepNumber) {
 function initTest() {
     currentQuestionIndex = 0;
     userAnswers.fill(null);
+    testResults = [];
     startTime = new Date();
     startTimer(15 * 60); // 15 минут для 20 вопросов
     shuffleQuestions();
@@ -311,23 +313,61 @@ function finishTest() {
     
     window.testTimeSpent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
-    // Сохраняем результат в общую статистику
+    // Рассчитываем и сохраняем результаты
+    calculateResults();
     saveTestResult();
     
     goToStep(3);
 }
 
+// Расчет результатов
+function calculateResults() {
+    testResults = [];
+    
+    testQuestions.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        let isCorrect = false;
+        let correctAnswer = '';
+        
+        if (question.type === 'choice') {
+            isCorrect = userAnswer === question.correct;
+            correctAnswer = question.options[question.correct];
+        } else if (question.type === 'input') {
+            const normalizedUserAnswer = userAnswer ? userAnswer.toLowerCase().trim() : '';
+            const normalizedCorrectAnswer = question.answer.toLowerCase().trim();
+            isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
+            correctAnswer = question.answer;
+        }
+        
+        testResults.push({
+            question: question.question,
+            userAnswer: userAnswer !== null ? 
+                (question.type === 'choice' ? question.options[userAnswer] : userAnswer) : 
+                'Нет ответа',
+            correctAnswer: correctAnswer,
+            isCorrect: isCorrect
+        });
+    });
+}
+
 // Функция сохранения результата теста
 function saveTestResult() {
+    const correctCount = testResults.filter(r => r.isCorrect).length;
+    const percentage = Math.round((correctCount / testQuestions.length) * 100);
+    
+    // Создаем объект результата
     const testResult = {
-        studentName: studentName,
+        id: Date.now() + Math.random(),
+        studentName: studentName || 'Анонимный студент',
         testName: 'Лексика: Comida',
-        score: window.correctCount || 0,
+        score: correctCount,  // ВАЖНО: число!
         totalQuestions: testQuestions.length,
-        timeSpent: window.testTimeSpent,
+        timeSpent: window.testTimeSpent || '0:00',
         date: new Date().toISOString(),
-        percentage: window.percentage || 0
+        percentage: percentage
     };
+    
+    console.log('Сохранение результата Comida:', testResult);
     
     // Загружаем существующие результаты
     let savedResults = JSON.parse(localStorage.getItem('testResults') || '[]');
@@ -346,50 +386,25 @@ function saveTestResult() {
     updateLocalStats();
 }
 
+// Функция обновления локальной статистики
 function updateLocalStats() {
     let totalTests = localStorage.getItem('totalTestsCompleted') || 0;
     totalTests = parseInt(totalTests) + 1;
     localStorage.setItem('totalTestsCompleted', totalTests);
     
-    let students = JSON.parse(localStorage.getItem('testStudents') || '[]');
-    if (!students.includes(studentName)) {
-        students.push(studentName);
-        localStorage.setItem('testStudents', JSON.stringify(students));
+    if (studentName) {
+        let students = JSON.parse(localStorage.getItem('testStudents') || '[]');
+        if (!students.includes(studentName)) {
+            students.push(studentName);
+            localStorage.setItem('testStudents', JSON.stringify(students));
+        }
     }
 }
 
 // Показать результаты
 function showResults() {
-    let correctCount = 0;
-    const resultDetails = [];
-    
-    testQuestions.forEach((question, index) => {
-        let isCorrect = false;
-        let userAnswer = userAnswers[index];
-        
-        if (question.type === 'choice') {
-            isCorrect = userAnswer === question.correct;
-            userAnswer = userAnswer !== null ? question.options[userAnswer] : 'Нет ответа';
-        } else if (question.type === 'input') {
-            const normalizedUserAnswer = userAnswer ? userAnswer.toLowerCase().trim() : '';
-            const normalizedCorrectAnswer = question.answer.toLowerCase().trim();
-            isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
-            userAnswer = userAnswer || 'Нет ответа';
-        }
-        
-        if (isCorrect) correctCount++;
-        
-        resultDetails.push({
-            question: question.question,
-            userAnswer: userAnswer,
-            correctAnswer: question.type === 'choice' ? question.options[question.correct] : question.answer,
-            isCorrect: isCorrect
-        });
-    });
-    
-    // Сохраняем для использования в saveTestResult
-    window.correctCount = correctCount;
-    window.percentage = Math.round((correctCount / testQuestions.length) * 100);
+    const correctCount = testResults.filter(r => r.isCorrect).length;
+    const percentage = Math.round((correctCount / testQuestions.length) * 100);
     
     // Обновление интерфейса результатов
     document.getElementById('studentGreeting').textContent = 
@@ -400,13 +415,13 @@ function showResults() {
     document.getElementById('wrongCount').textContent = testQuestions.length - correctCount;
     document.getElementById('timeSpent').textContent = window.testTimeSpent || '0:00';
     
-    document.getElementById('scorePercent').textContent = `${window.percentage}%`;
+    document.getElementById('scorePercent').textContent = `${percentage}%`;
     
     // Анимация круга прогресса
     const circle = document.querySelector('.progress-ring-fill');
     const radius = 90;
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (window.percentage / 100) * circumference;
+    const offset = circumference - (percentage / 100) * circumference;
     
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
     circle.style.strokeDashoffset = circumference;
@@ -418,19 +433,19 @@ function showResults() {
     
     // Мотивационное сообщение
     const resultMessage = document.getElementById('resultMessage');
-    if (window.percentage >= 90) {
+    if (percentage >= 90) {
         resultMessage.innerHTML = `
-            <h3><i class="fas fa-trophy"></i> ¡Excelente! Отлично! (${correctCount}/20)</h3>
+            <h3><i class="fas fa-trophy"></i> ¡Excelente! Превосходно! (${correctCount}/20)</h3>
             <p>Ты прекрасно знаешь испанскую лексику о еде! ¡Fantástico!</p>
         `;
         resultMessage.style.borderLeftColor = '#27ae60';
-    } else if (window.percentage >= 75) {
+    } else if (percentage >= 75) {
         resultMessage.innerHTML = `
             <h3><i class="fas fa-star"></i> ¡Muy bien! Очень хорошо! (${correctCount}/20)</h3>
             <p>Отличный результат! Ты хорошо ориентируешься в кулинарной лексике.</p>
         `;
         resultMessage.style.borderLeftColor = '#f1bf00';
-    } else if (window.percentage >= 50) {
+    } else if (percentage >= 50) {
         resultMessage.innerHTML = `
             <h3><i class="fas fa-check-circle"></i> ¡Bien! Хорошо! (${correctCount}/20)</h3>
             <p>Неплохо! Для уверенного общения в ресторане стоит повторить слова.</p>
@@ -448,7 +463,7 @@ function showResults() {
     const answersDetails = document.getElementById('answersDetails');
     answersDetails.innerHTML = '';
     
-    resultDetails.forEach((detail, index) => {
+    testResults.forEach((detail, index) => {
         const detailElement = document.createElement('div');
         detailElement.className = `question-detail ${detail.isCorrect ? 'correct' : 'incorrect'}`;
         
