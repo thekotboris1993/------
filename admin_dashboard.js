@@ -1,14 +1,29 @@
 // Модель данных
 class TestResult {
     constructor(studentName, testName, score, totalQuestions, timeSpent, date) {
-        this.id = Date.now() + Math.random();
-        this.studentName = studentName;
-        this.testName = testName;
-        this.score = score;
-        this.totalQuestions = totalQuestions;
-        this.timeSpent = timeSpent;
-        this.date = date || new Date().toISOString();
-        this.percentage = Math.round((score / totalQuestions) * 100);
+        // Обрабатываем как старые, так и новые форматы данных
+        if (typeof studentName === 'object' && studentName !== null) {
+            // Если первый аргумент - объект (старый формат)
+            const data = studentName;
+            this.id = data.id || Date.now() + Math.random();
+            this.studentName = data.studentName || 'Неизвестный';
+            this.testName = data.testName || 'Неизвестный тест';
+            this.score = parseInt(data.score) || 0;
+            this.totalQuestions = parseInt(data.totalQuestions) || 20;
+            this.timeSpent = data.timeSpent || '0:00';
+            this.date = data.date || new Date().toISOString();
+        } else {
+            // Новый корректный формат
+            this.id = Date.now() + Math.random();
+            this.studentName = studentName || 'Неизвестный';
+            this.testName = testName || 'Неизвестный тест';
+            this.score = parseInt(score) || 0;
+            this.totalQuestions = parseInt(totalQuestions) || 20;
+            this.timeSpent = timeSpent || '0:00';
+            this.date = date || new Date().toISOString();
+        }
+        
+        this.percentage = Math.round((this.score / this.totalQuestions) * 100);
     }
     
     getResultClass() {
@@ -23,6 +38,19 @@ class TestResult {
         if (this.percentage >= 70) return 'Хорошо';
         if (this.percentage >= 50) return 'Удовлетворительно';
         return 'Повторить';
+    }
+    
+    toJSON() {
+        return {
+            id: this.id,
+            studentName: this.studentName,
+            testName: this.testName,
+            score: this.score,
+            totalQuestions: this.totalQuestions,
+            timeSpent: this.timeSpent,
+            date: this.date,
+            percentage: this.percentage
+        };
     }
 }
 
@@ -488,3 +516,544 @@ function showResultDetails(resultId) {
 function deleteResult(resultId) {
     resultsManager.deleteResult(resultId);
 }
+// ===== УПРАВЛЕНИЕ ТЕСТАМИ =====
+class TestsManager {
+    constructor() {
+        this.tests = [];
+        this.filteredTests = [];
+        this.currentTestsPage = 1;
+        this.testsPageSize = 10;
+        this.testsFilters = {
+            search: '',
+            category: 'all',
+            status: 'all'
+        };
+        
+        this.initTestsManager();
+    }
+    
+    initTestsManager() {
+        this.loadTests();
+        this.bindTestsEvents();
+    }
+    
+    loadTests() {
+        // Загружаем тесты из localStorage
+        const teacherTests = JSON.parse(localStorage.getItem('teacherTests') || '[]');
+        const availableTests = JSON.parse(localStorage.getItem('availableTests') || '[]');
+        
+        // Объединяем данные
+        this.tests = teacherTests.map(teacherTest => {
+            const hubTest = availableTests.find(t => t.id === teacherTest.id);
+            
+            // Получаем статистику прохождений для этого теста
+            const testResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+            const testAttempts = testResults.filter(r => r.testName === teacherTest.title);
+            const totalAttempts = testAttempts.length;
+            const avgScore = totalAttempts > 0 ? 
+                (testAttempts.reduce((sum, r) => sum + (r.percentage || 0), 0) / totalAttempts).toFixed(1) : 0;
+            
+            return {
+                id: teacherTest.id,
+                title: teacherTest.title,
+                description: teacherTest.description,
+                category: teacherTest.category,
+                questions: teacherTest.questions ? teacherTest.questions.length : 0,
+                time: teacherTest.time,
+                level: teacherTest.level,
+                status: teacherTest.draft ? 'draft' : 'active',
+                created: teacherTest.created,
+                modified: teacherTest.modified,
+                totalAttempts: totalAttempts,
+                avgScore: parseFloat(avgScore),
+                filename: hubTest ? hubTest.filename : `test_${teacherTest.id}.html`
+            };
+        });
+        
+        // Добавляем фиксированные тесты, если их нет в списке
+        const fixedTests = [
+            {
+                id: 1,
+                title: 'Глаголы: Presente',
+                description: 'Проверь знание правильных и неправильных глаголов',
+                category: 'grammar',
+                questions: 20,
+                time: 15,
+                level: 'intermediate',
+                status: 'active',
+                created: new Date().toISOString(),
+                totalAttempts: this.getTestAttemptsCount('Глаголы: Presente'),
+                avgScore: this.getTestAvgScore('Глаголы: Presente'),
+                filename: 'test_presente.html'
+            },
+            {
+                id: 2,
+                title: 'Лексика: Comida',
+                description: 'Испанская лексика по теме еды и напитков',
+                category: 'vocabulary',
+                questions: 20,
+                time: 15,
+                level: 'intermediate',
+                status: 'active',
+                created: new Date().toISOString(),
+                totalAttempts: this.getTestAttemptsCount('Лексика: Comida'),
+                avgScore: this.getTestAvgScore('Лексика: Comida'),
+                filename: 'test_comida.html'
+            }
+        ];
+        
+        fixedTests.forEach(fixedTest => {
+            if (!this.tests.some(t => t.id === fixedTest.id)) {
+                this.tests.push(fixedTest);
+            }
+        });
+        
+        this.applyTestsFilters();
+        this.updateTestsStats();
+        this.renderTestsTable();
+    }
+    
+    getTestAttemptsCount(testName) {
+        const results = JSON.parse(localStorage.getItem('testResults') || '[]');
+        return results.filter(r => r.testName === testName).length;
+    }
+    
+    getTestAvgScore(testName) {
+        const results = JSON.parse(localStorage.getItem('testResults') || '[]');
+        const testResults = results.filter(r => r.testName === testName);
+        if (testResults.length === 0) return 0;
+        
+        const avg = testResults.reduce((sum, r) => sum + (r.percentage || 0), 0) / testResults.length;
+        return parseFloat(avg.toFixed(1));
+    }
+    
+    applyTestsFilters() {
+        let filtered = [...this.tests];
+        
+        // Фильтр по поиску
+        if (this.testsFilters.search) {
+            const searchLower = this.testsFilters.search.toLowerCase();
+            filtered = filtered.filter(t => 
+                t.title.toLowerCase().includes(searchLower) ||
+                t.description.toLowerCase().includes(searchLower)
+            );
+        }
+        
+        // Фильтр по категории
+        if (this.testsFilters.category !== 'all') {
+            filtered = filtered.filter(t => t.category === this.testsFilters.category);
+        }
+        
+        // Фильтр по статусу
+        if (this.testsFilters.status !== 'all') {
+            filtered = filtered.filter(t => t.status === this.testsFilters.status);
+        }
+        
+        this.filteredTests = filtered;
+        this.currentTestsPage = 1;
+    }
+    
+    updateTestsStats() {
+        const totalTests = this.tests.length;
+        const activeTests = this.tests.filter(t => t.status === 'active').length;
+        const totalAttempts = this.tests.reduce((sum, t) => sum + t.totalAttempts, 0);
+        const avgScore = totalAttempts > 0 ? 
+            (this.tests.reduce((sum, t) => sum + (t.avgScore * t.totalAttempts), 0) / totalAttempts).toFixed(1) : 0;
+        
+        document.getElementById('totalTestsCount').textContent = totalTests;
+        document.getElementById('activeTestsCount').textContent = activeTests;
+        document.getElementById('totalAttemptsCount').textContent = totalAttempts;
+        document.getElementById('avgTestScore').textContent = avgScore;
+    }
+    
+    renderTestsTable() {
+        const tableBody = document.getElementById('testsTableBody');
+        if (!tableBody) return;
+        
+        const startIndex = (this.currentTestsPage - 1) * this.testsPageSize;
+        const endIndex = Math.min(startIndex + this.testsPageSize, this.filteredTests.length);
+        const pageTests = this.filteredTests.slice(startIndex, endIndex);
+        
+        if (pageTests.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="11" style="text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-search" style="font-size: 2em; margin-bottom: 10px; display: block;"></i>
+                        Тесты не найдены
+                    </td>
+                </tr>
+            `;
+        } else {
+            tableBody.innerHTML = pageTests.map(test => `
+                <tr>
+                    <td>${test.id}</td>
+                    <td>
+                        <strong>${test.title}</strong>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">${test.description}</p>
+                    </td>
+                    <td>
+                        <span class="category-badge category-${test.category}">
+                            ${this.getCategoryName(test.category)}
+                        </span>
+                    </td>
+                    <td>${test.questions}</td>
+                    <td>${test.time} мин</td>
+                    <td>${this.getLevelName(test.level)}</td>
+                    <td>${test.totalAttempts}</td>
+                    <td>
+                        <span class="${test.avgScore >= 70 ? 'result-excellent' : test.avgScore >= 50 ? 'result-good' : 'result-poor'}">
+                            ${test.avgScore}%
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${test.status}">
+                            ${this.getStatusName(test.status)}
+                        </span>
+                    </td>
+                    <td>${new Date(test.created).toLocaleDateString('ru-RU')}</td>
+                    <td>
+                        <div class="test-actions">
+                            <button class="test-action-btn edit" onclick="testsManager.editTest(${test.id})" title="Редактировать">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="test-action-btn stats" onclick="testsManager.viewTestStats(${test.id})" title="Статистика">
+                                <i class="fas fa-chart-bar"></i>
+                            </button>
+                            <button class="test-action-btn duplicate" onclick="testsManager.duplicateTest(${test.id})" title="Дублировать">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            ${test.id > 2 ? `
+                                <button class="test-action-btn delete" onclick="testsManager.deleteTest(${test.id})" title="Удалить">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        this.updateTestsPagination();
+    }
+    
+    updateTestsPagination() {
+        const totalPages = Math.ceil(this.filteredTests.length / this.testsPageSize);
+        
+        document.getElementById('testsShownCount').textContent = 
+            Math.min((this.currentTestsPage - 1) * this.testsPageSize + 1, this.filteredTests.length) + 
+            ' - ' + 
+            Math.min(this.currentTestsPage * this.testsPageSize, this.filteredTests.length);
+        
+        document.getElementById('testsTotalCount').textContent = this.filteredTests.length;
+    }
+    
+    getCategoryName(category) {
+        const categories = {
+            'grammar': 'Грамматика',
+            'vocabulary': 'Лексика',
+            'listening': 'Аудирование',
+            'reading': 'Чтение',
+            'culture': 'Культура'
+        };
+        return categories[category] || category;
+    }
+    
+    getLevelName(level) {
+        const levels = {
+            'beginner': 'Начальный',
+            'intermediate': 'Средний',
+            'advanced': 'Продвинутый'
+        };
+        return levels[level] || level;
+    }
+    
+    getStatusName(status) {
+        const statuses = {
+            'active': 'Активный',
+            'draft': 'Черновик',
+            'archived': 'Архив'
+        };
+        return statuses[status] || status;
+    }
+    
+    bindTestsEvents() {
+        const searchInput = document.getElementById('searchTestsInput');
+        if (searchInput) {
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    this.testsFilters.search = e.target.value;
+                    this.applyTestsFilters();
+                    this.renderTestsTable();
+                }, 300);
+            });
+        }
+        
+        const categoryFilter = document.getElementById('filterCategory');
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', (e) => {
+                this.testsFilters.category = e.target.value;
+                this.applyTestsFilters();
+                this.renderTestsTable();
+            });
+        }
+        
+        const statusFilter = document.getElementById('filterStatus');
+        if (statusFilter) {
+            statusFilter.addEventListener('change', (e) => {
+                this.testsFilters.status = e.target.value;
+                this.applyTestsFilters();
+                this.renderTestsTable();
+            });
+        }
+    }
+    
+    editTest(testId) {
+        const test = this.tests.find(t => t.id === testId);
+        if (test) {
+            // Открываем конструктор тестов в новой вкладке
+            window.open('admin_create_test.html', '_blank');
+            
+            // Можно передать ID теста через localStorage
+            localStorage.setItem('editTestId', testId);
+        }
+    }
+    
+    viewTestStats(testId) {
+        const test = this.tests.find(t => t.id === testId);
+        if (test) {
+            alert(`Статистика теста: ${test.title}\n\n` +
+                  `Всего прохождений: ${test.totalAttempts}\n` +
+                  `Средний балл: ${test.avgScore}%\n` +
+                  `Вопросов: ${test.questions}\n` +
+                  `Время: ${test.time} минут\n` +
+                  `Уровень: ${this.getLevelName(test.level)}\n` +
+                  `Статус: ${this.getStatusName(test.status)}`);
+        }
+    }
+    
+    duplicateTest(testId) {
+        const test = this.tests.find(t => t.id === testId);
+        if (test) {
+            const newTest = {
+                ...test,
+                id: Date.now(),
+                title: `${test.title} (копия)`,
+                created: new Date().toISOString(),
+                modified: new Date().toISOString(),
+                totalAttempts: 0,
+                avgScore: 0
+            };
+            
+            // Загружаем полные данные теста
+            const teacherTests = JSON.parse(localStorage.getItem('teacherTests') || '[]');
+            const originalTest = teacherTests.find(t => t.id === testId);
+            
+            if (originalTest) {
+                const newTeacherTest = {
+                    ...originalTest,
+                    id: newTest.id,
+                    title: newTest.title,
+                    created: newTest.created,
+                    modified: newTest.modified,
+                    draft: true
+                };
+                
+                teacherTests.push(newTeacherTest);
+                localStorage.setItem('teacherTests', JSON.stringify(teacherTests));
+                
+                // Обновляем хаб
+                const availableTests = JSON.parse(localStorage.getItem('availableTests') || '[]');
+                const newHubTest = {
+                    id: newTest.id,
+                    title: newTest.title,
+                    description: newTest.description,
+                    category: newTest.category,
+                    time: newTest.time,
+                    questions: newTest.questions,
+                    level: newTest.level,
+                    icon: 'language',
+                    filename: `test_${newTest.id}.html`
+                };
+                
+                availableTests.push(newHubTest);
+                localStorage.setItem('availableTests', JSON.stringify(availableTests));
+                
+                this.loadTests();
+                alert(`Тест "${test.title}" скопирован как "${newTest.title}"`);
+            }
+        }
+    }
+    
+    deleteTest(testId) {
+        if (testId <= 2) {
+            alert('Фиксированные тесты нельзя удалить');
+            return;
+        }
+        
+        if (confirm('Удалить этот тест? Все связанные данные будут потеряны.')) {
+            // Удаляем из teacherTests
+            let teacherTests = JSON.parse(localStorage.getItem('teacherTests') || '[]');
+            teacherTests = teacherTests.filter(t => t.id !== testId);
+            localStorage.setItem('teacherTests', JSON.stringify(teacherTests));
+            
+            // Удаляем из availableTests
+            let availableTests = JSON.parse(localStorage.getItem('availableTests') || '[]');
+            availableTests = availableTests.filter(t => t.id !== testId);
+            localStorage.setItem('availableTests', JSON.stringify(availableTests));
+            
+            // Перезагружаем список
+            this.loadTests();
+            alert('Тест удален');
+        }
+    }
+    
+    applyBulkAction() {
+        const action = document.getElementById('bulkAction').value;
+        if (!action) {
+            alert('Выберите действие');
+            return;
+        }
+        
+        // В реальном приложении здесь была бы обработка выбранных тестов
+        alert(`Групповое действие "${action}" будет применено к выбранным тестам`);
+    }
+    
+    exportAllTests() {
+        const teacherTests = JSON.parse(localStorage.getItem('teacherTests') || '[]');
+        const dataStr = JSON.stringify(teacherTests, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `all_tests_${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+    importTests() {
+        alert('Функция импорта тестов будет реализована в следующей версии');
+    }
+    
+    generateTestReport() {
+        let report = `ОТЧЕТ ПО ТЕСТАМ\n`;
+        report += `Дата: ${new Date().toLocaleDateString('ru-RU')}\n`;
+        report += `Всего тестов: ${this.tests.length}\n`;
+        report += `Активных тестов: ${this.tests.filter(t => t.status === 'active').length}\n`;
+        report += `Всего прохождений: ${this.tests.reduce((sum, t) => sum + t.totalAttempts, 0)}\n\n`;
+        
+        this.tests.forEach(test => {
+            report += `${test.title}\n`;
+            report += `  Категория: ${this.getCategoryName(test.category)}\n`;
+            report += `  Прохождения: ${test.totalAttempts}\n`;
+            report += `  Средний балл: ${test.avgScore}%\n`;
+            report += `  Статус: ${this.getStatusName(test.status)}\n\n`;
+        });
+        
+        alert(report);
+    }
+}
+
+// Глобальный экземпляр менеджера тестов
+let testsManager;
+
+// Навигация между разделами
+function showTestsManagement() {
+    // Скрываем текущие разделы
+    document.querySelector('.stats-cards').style.display = 'none';
+    document.querySelector('.results-table-container').style.display = 'none';
+    document.querySelector('.charts-section').style.display = 'none';
+    
+    // Показываем управление тестами
+    document.getElementById('testsManagementSection').style.display = 'block';
+    
+    // Обновляем активный пункт меню
+    document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+    document.querySelector('#manageTests').parentElement.classList.add('active');
+    
+    // Инициализируем менеджер тестов при первом открытии
+    if (!testsManager) {
+        testsManager = new TestsManager();
+    }
+}
+
+function showCreateTest() {
+    window.open('admin_create_test.html', '_blank');
+}
+
+function refreshTestsList() {
+    if (testsManager) {
+        testsManager.loadTests();
+        alert('Список тестов обновлен');
+    }
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    // Добавляем обработчики для навигации
+    document.getElementById('manageTests').addEventListener('click', (e) => {
+        e.preventDefault();
+        showTestsManagement();
+    });
+    
+    document.getElementById('createTestBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        showCreateTest();
+    });
+    
+    document.getElementById('viewStatistics').addEventListener('click', (e) => {
+        e.preventDefault();
+        showResults(); // Возвращаемся к результатам
+    });
+    
+    function showResults() {
+        // Показываем результаты тестов
+        document.querySelector('.stats-cards').style.display = 'grid';
+        document.querySelector('.results-table-container').style.display = 'block';
+        document.querySelector('.charts-section').style.display = 'grid';
+        
+        // Скрываем управление тестами
+        document.getElementById('testsManagementSection').style.display = 'none';
+        
+        // Обновляем активный пункт меню
+        document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+        document.querySelector('.sidebar-menu li:first-child').classList.add('active');
+    }
+    
+    // Глобальные функции для кнопок
+    window.refreshTestsList = refreshTestsList;
+    window.duplicateTest = () => {
+        if (testsManager) {
+            const testId = prompt('Введите ID теста для копирования:');
+            if (testId) {
+                testsManager.duplicateTest(parseInt(testId));
+            }
+        }
+    };
+    window.exportAllTests = () => {
+        if (testsManager) {
+            testsManager.exportAllTests();
+        }
+    };
+    window.importTests = () => {
+        if (testsManager) {
+            testsManager.importTests();
+        }
+    };
+    window.generateTestReport = () => {
+        if (testsManager) {
+            testsManager.generateTestReport();
+        }
+    };
+    window.applyBulkAction = () => {
+        if (testsManager) {
+            testsManager.applyBulkAction();
+        }
+    };
+    
+    // Глобальный доступ к менеджеру тестов
+    window.testsManager = testsManager;
+});
