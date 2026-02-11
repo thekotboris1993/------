@@ -308,3 +308,133 @@ body {
         justify-content: center;
     }
 }
+/* Стили для разделов языков */
+.language-section {
+    margin-bottom: 60px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border-left: 5px solid #f1bf00;
+}
+
+.language-flag {
+    font-size: 2.5em;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.section-header h2 {
+    font-size: 2em;
+    margin: 0;
+    color: white;
+}
+
+.section-header p {
+    margin-left: auto;
+    opacity: 0.9;
+    font-size: 1em;
+}
+
+/* Стили для испанских карточек */
+.spanish-card::before {
+    background: linear-gradient(135deg, #c8102e, #f1bf00) !important;
+}
+
+.spanish-card .nav-link {
+    background: linear-gradient(135deg, #c8102e, #f1bf00) !important;
+}
+
+/* Стили для корейских карточек */
+.korean-card::before {
+    background: linear-gradient(135deg, #3F51B5, #673AB7) !important;
+}
+
+.korean-card .nav-link {
+    background: linear-gradient(135deg, #3F51B5, #673AB7) !important;
+}
+
+/* Стиль для карточек "Скоро" */
+.coming-soon {
+    position: relative;
+    opacity: 0.9;
+}
+
+.coming-soon-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #9C27B0, #6A1B9A);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.coming-soon .nav-link.disabled {
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6) !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.coming-soon .nav-link.disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Секция админа */
+.admin-section {
+    margin-top: 40px;
+}
+
+.admin-section .test-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Адаптивность для разделов */
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .section-header p {
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .section-header h2 {
+        font-size: 1.6em;
+    }
+    
+    .language-flag {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-header {
+        padding: 15px;
+    }
+    
+    .coming-soon-badge {
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        font-size: 0.7em;
+    }
+}
