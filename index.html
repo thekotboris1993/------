@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мои учебные проекты</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        /* Дополнительные стили для модального окна лаб 3-7 */
+        .lab-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+        
+        .lab-modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .lab-module {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .lab-module span {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .lab-module small {
+            color: #a0aec0;
+            font-size: 0.8em;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -90,6 +127,23 @@
                 </div>
             </div>
 
+            <!-- НОВАЯ КАРТОЧКА: Лабораторные работы 3-7 -->
+            <div class="project-card">
+                <span class="project-icon">📚</span>
+                <h2>JavaScript: Лабораторные 3-7</h2>
+                <p>Комплексный проект, демонстрирующий различные аспекты JavaScript разработки: ООП, массивы, коллекции, сортировка.</p>
+                <div style="margin: 15px 0; display: flex; flex-wrap: wrap; gap: 5px;">
+                    <span class="lab-badge">№3 Объекты</span>
+                    <span class="lab-badge">№4 ООП</span>
+                    <span class="lab-badge">№5 Массивы</span>
+                    <span class="lab-badge">№6 Map&Set</span>
+                    <span class="lab-badge">№7 Сортировка</span>
+                </div>
+                <div class="project-links">
+                    <a href="html_Lab3-7.html" class="nav-link">🚀 Открыть хаб лабораторных</a>
+                </div>
+            </div>
+
             <!-- Карточка ¡Hola! - Тесты по испанскому -->
             <div class="project-card">
                 <span class="project-icon">📚</span>
@@ -163,6 +217,62 @@
         </div>
     </div>
 
+    <!-- Модальное окно для Лабораторных работ 3-7 -->
+    <div id="lab3-7-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);">
+        <div class="modal-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin: 10% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
+            <span class="close-modal" onclick="closeModal('lab3-7')" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #e74c3c;">&times;</span>
+            <h2 style="color: white; margin-bottom: 20px;">📚 Лабораторные работы 3-7</h2>
+            
+            <div class="lab-modules">
+                <div class="lab-module">
+                    <span>🎓</span>
+                    <strong>№3</strong>
+                    <small>Объекты</small>
+                </div>
+                <div class="lab-module">
+                    <span>📐</span>
+                    <strong>№4</strong>
+                    <small>ООП</small>
+                </div>
+                <div class="lab-module">
+                    <span>📊</span>
+                    <strong>№5</strong>
+                    <small>Массивы</small>
+                </div>
+                <div class="lab-module">
+                    <span>🗂️</span>
+                    <strong>№6</strong>
+                    <small>Map&Set</small>
+                </div>
+                <div class="lab-module">
+                    <span>🔍</span>
+                    <strong>№7</strong>
+                    <small>Сортировка</small>
+                </div>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <h4 style="color: #2ecc71; margin-bottom: 10px;">✨ Что реализовано:</h4>
+                <ul style="padding-left: 20px;">
+                    <li><strong>Лаб.3:</strong> Система управления студентами с localStorage</li>
+                    <li><strong>Лаб.4:</strong> Геометрические фигуры на Canvas</li>
+                    <li><strong>Лаб.5:</strong> Обработка массивов и матриц</li>
+                    <li><strong>Лаб.6:</strong> Коллекции Map и Set с визуализацией</li>
+                    <li><strong>Лаб.7:</strong> Сортировка Шелла и бинарный поиск</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="window.open('html_Lab3-7.html', '_blank')" style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border: none; padding: 15px 40px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 18px; margin: 0 10px; transition: all 0.3s ease;">
+                    🚀 Открыть хаб лабораторных
+                </button>
+                <button onclick="window.open('LaB_3.html?tab=sorting', '_blank')" style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; border: none; padding: 15px 40px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 18px; margin: 0 10px; transition: all 0.3s ease;">
+                    🔍 Сортировка (лаб.7)
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Плавающая кнопка профиля -->
     <div class="floating-profile">
         <a href="https://github.com/thekotboris1993" target="_blank" class="profile-link">
@@ -207,6 +317,12 @@
 
         function showLab2Info() {
             const modal = document.getElementById('lab2-modal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showLab3_7Info() {
+            const modal = document.getElementById('lab3-7-modal');
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
