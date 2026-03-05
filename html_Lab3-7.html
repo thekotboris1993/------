@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторные работы по с 3 по 7</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .lab-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: fadeIn 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .lab-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .lab-number {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lab-number span {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 25px;
+            font-size: 0.8em;
+        }
+
+        .lab-title {
+            font-size: 1.8em;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .lab-description {
+            color: #718096;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .lab-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .lab-features li {
+            margin-bottom: 10px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lab-features li::before {
+            content: '✓';
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        .lab-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .lab-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        .lab-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+            color: #718096;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge {
+            background: #48bb78;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .labs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Лабораторные работы по с 3 по 7</h1>
+        
+        <div class="labs-grid">
+            <!-- Лабораторная работа №3 -->
+            <div class="lab-card" onclick="window.location.href='LaB_3.html'">
+                <div class="lab-number">
+                    🎓 Лабораторная №3
+                    <span>Объекты</span>
+                </div>
+                <div class="lab-title">Система управления студентами</div>
+                <div class="lab-description">
+                    Полноценная CRM-система для учета студентов и их успеваемости с визуализацией данных.
+                </div>
+                <ul class="lab-features">
+                    <li>Классы Student и Mark с полной функциональностью</li>
+                    <li>CRUD операции со студентами и оценками</li>
+                    <li>Автоматический расчет среднего балла</li>
+                    <li>Фильтрация оценок по предметам</li>
+                    <li>Сохранение данных в localStorage</li>
+                </ul>
+                <button class="lab-btn" onclick="window.location.href='LaB_3.html'; event.stopPropagation();">🔍 Открыть систему →</button>
+                <div class="lab-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="studentCount">0</div>
+                        <div>Студентов</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="groupCount">0</div>
+                        <div>Групп</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="avgMark">0</div>
+                        <div>Ср. балл</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лабораторная работа №4 -->
+            <div class="lab-card" onclick="window.location.href='LaB_4.html'">
+                <div class="lab-number">
+                    📐 Лабораторная №4
+                    <span>ООП</span>
+                </div>
+                <div class="lab-title">Геометрические фигуры</div>
+                <div class="lab-description">
+                    Демонстрация принципов ООП: наследование, инкапсуляция, полиморфизм на примере геометрических фигур.
+                </div>
+                <ul class="lab-features">
+                    <li>Базовый класс Figure с приватными полями</li>
+                    <li>Класс Circle для расчета площади круга</li>
+                    <li>Класс Rectangle для прямоугольников</li>
+                    <li>Визуальное представление фигур на Canvas</li>
+                    <li>Интерактивное изменение параметров</li>
+                </ul>
+                <button class="lab-btn" onclick="window.location.href='LaB_4.html'; event.stopPropagation();">🔍 Демонстрация фигур →</button>
+                <div class="lab-stats">
+                    <div class="stat">
+                        <div class="stat-value">2</div>
+                        <div>Класса</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div>Фигуры</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Canvas</div>
+                        <div>Визуализация</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лабораторная работа №5 -->
+            <div class="lab-card" onclick="window.location.href='LaB_5.html'">
+                <div class="lab-number">
+                    📊 Лабораторная №5
+                    <span>Массивы</span>
+                </div>
+                <div class="lab-title">Обработка массивов и матриц</div>
+                <div class="lab-description">
+                    Алгоритмы обработки одномерных и многомерных массивов с визуализацией результатов.
+                </div>
+                <ul class="lab-features">
+                    <li>Поиск элементов, равных предыдущему</li>
+                    <li>Работа с прямоугольными матрицами</li>
+                    <li>Поиск седловых точек матрицы</li>
+                    <li>Суммы элементов с отрицательными значениями</li>
+                    <li>Интерактивный ввод данных</li>
+                </ul>
+                <button class="lab-btn" onclick="window.location.href='LaB_5.html'; event.stopPropagation();">🔍 Запустить алгоритмы →</button>
+                <div class="lab-stats">
+                    <div class="stat">
+                        <div class="stat-value">7</div>
+                        <div>Алгоритмов</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">2D</div>
+                        <div>Матрицы</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лабораторная работа №6 -->
+            <div class="lab-card" onclick="window.location.href='LaB_6.html'">
+                <div class="lab-number">
+                    🗂️ Лабораторная №6
+                    <span>Map & Set</span>
+                </div>
+                <div class="lab-title">Коллекции данных</div>
+                <div class="lab-description">
+                    Работа с коллекциями Map и Set для эффективной обработки данных.
+                </div>
+                <ul class="lab-features">
+                    <li>Поиск общих элементов в массивах (Set)</li>
+                    <li>Подсчет частоты элементов (Map)</li>
+                    <li>Анализ групп студентов</li>
+                    <li>Визуализация результатов подсчета</li>
+                </ul>
+                <button class="lab-btn" onclick="window.location.href='LaB_6.html'; event.stopPropagation();">🔍 Анализ данных →</button>
+                <div class="lab-stats">
+                    <div class="stat">
+                        <div class="stat-value">Set</div>
+                        <div>Уникальность</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Map</div>
+                        <div>Подсчет</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лабораторная работа №7 (Интегрирована с №3) -->
+            <div class="lab-card" onclick="window.location.href='LaB_3.html'">
+                <div class="lab-number">
+                    🔍 Лабораторная №7
+                    <span class="badge">Интегрировано</span>
+                </div>
+                <div class="lab-title">Сортировка и поиск</div>
+                <div class="lab-description">
+                    Алгоритмы сортировки и поиска, интегрированные в систему управления студентами.
+                </div>
+                <ul class="lab-features">
+                    <li>Сортировка Шелла по среднему баллу</li>
+                    <li>Бинарный поиск по фамилии и имени</li>
+                    <li>Интеграция с системой студентов</li>
+                    <li>Визуализация процесса сортировки</li>
+                </ul>
+                <button class="lab-btn" onclick="window.location.href='LaB_3.html?tab=sorting'; event.stopPropagation();">🔍 Открыть сортировку →</button>
+                <div class="lab-stats">
+                    <div class="stat">
+                        <div class="stat-value">Шелл</div>
+                        <div>Сортировка</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Бинарный</div>
+                        <div>Поиск</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Функция для обновления статистики с 3-й лабораторной
+        function updateStatsFromLab3() {
+            try {
+                const savedData = localStorage.getItem('studentsData');
+                if (savedData) {
+                    const students = JSON.parse(savedData);
+                    
+                    // Обновляем счетчики на главной
+                    document.getElementById('studentCount').textContent = students.length;
+                    
+                    // Подсчет уникальных групп
+                    const groups = new Set(students.map(s => s.group));
+                    document.getElementById('groupCount').textContent = groups.size;
+                    
+                    // Средний балл
+                    let totalAvg = 0;
+                    let countWithMarks = 0;
+                    students.forEach(student => {
+                        if (student.marks && student.marks.length > 0) {
+                            const sum = student.marks.reduce((acc, mark) => acc + mark.mark, 0);
+                            totalAvg += sum / student.marks.length;
+                            countWithMarks++;
+                        }
+                    });
+                    
+                    const avgMark = countWithMarks > 0 ? (totalAvg / countWithMarks).toFixed(2) : 0;
+                    document.getElementById('avgMark').textContent = avgMark;
+                }
+            } catch (e) {
+                console.log('Нет данных из 3-й лабораторной');
+            }
+        }
+
+        // Загружаем статистику при загрузке страницы
+        window.onload = updateStatsFromLab3;
+    </script>
+</body>
+</html>

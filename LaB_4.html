@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная №4 - Геометрические фигуры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-btn {
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #5a67d8;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .controls-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .figure-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .figure-title {
+            font-size: 1.3em;
+            color: #4a5568;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        .canvas-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        canvas {
+            background: #f7fafc;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 100%;
+            height: auto;
+        }
+
+        .info-panel {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-title {
+            font-weight: bold;
+            color: #2c5282;
+            margin-bottom: 10px;
+        }
+
+        .figure-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .figure-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .figure-property {
+            color: #4a5568;
+            margin: 5px 0;
+        }
+
+        .figure-value {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>📐 Лабораторная работа №4</h1>
+                <p class="subtitle">Объектно-ориентированное программирование. Геометрические фигуры</p>
+            </div>
+            <a href="html_Lab3-7.html" class="back-btn">← Назад к лабораторным</a>
+        </div>
+
+        <div class="content-grid">
+            <div class="controls-panel">
+                <h2>Управление фигурами</h2>
+                
+                <!-- Круг -->
+                <div class="figure-card">
+                    <div class="figure-title">
+                        <span>⭕ Круг</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Центр X:</label>
+                        <input type="number" id="circleX" value="200" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Центр Y:</label>
+                        <input type="number" id="circleY" value="150" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Радиус:</label>
+                        <input type="number" id="circleR" value="50" min="10" max="150" step="5">
+                    </div>
+                    <button onclick="addCircle()">➕ Добавить круг</button>
+                    <button onclick="updateCircle()">🔄 Обновить круг</button>
+                </div>
+
+                <!-- Прямоугольник -->
+                <div class="figure-card">
+                    <div class="figure-title">
+                        <span>⬜ Прямоугольник</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Центр X:</label>
+                        <input type="number" id="rectX" value="400" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Центр Y:</label>
+                        <input type="number" id="rectY" value="150" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Высота:</label>
+                        <input type="number" id="rectH" value="80" min="20" max="200" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Ширина:</label>
+                        <input type="number" id="rectW" value="120" min="20" max="200" step="5">
+                    </div>
+                    <button onclick="addRectangle()">➕ Добавить прямоугольник</button>
+                    <button onclick="updateRectangle()">🔄 Обновить прямоугольник</button>
+                </div>
+
+                <!-- Информация о фигурах -->
+                <div class="info-panel">
+                    <div class="info-title">📊 Информация о фигурах</div>
+                    <div id="figureInfo" class="figure-list">
+                        <div class="figure-item">
+                            <div class="figure-property">Круг: <span id="circleArea" class="figure-value">0</span></div>
+                        </div>
+                        <div class="figure-item">
+                            <div class="figure-property">Прямоугольник: <span id="rectArea" class="figure-value">0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button onclick="clearCanvas()">🗑️ Очистить холст</button>
+                    <button onclick="drawDefault()">↩️ Вернуть по умолчанию</button>
+                </div>
+            </div>
+
+            <div class="canvas-container">
+                <h2>Визуализация фигур</h2>
+                <canvas id="figureCanvas" width="600" height="300"></canvas>
+                <p style="color: #718096; margin-top: 10px;">
+                    * Фигуры отображаются с центром в указанных координатах
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== КЛАССЫ ==========
+        class Figure {
+            #x;
+            #y;
+
+            constructor(x, y) {
+                this.#x = x;
+                this.#y = y;
+            }
+
+            get x() { return this.#x; }
+            get y() { return this.#y; }
+
+            square() { return undefined; }
+            
+            draw(ctx) {}
+        }
+
+        class Circle extends Figure {
+            #r;
+
+            constructor(x, y, r) {
+                super(x, y);
+                this.#r = r;
+            }
+
+            get r() { return this.#r; }
+
+            square() {
+                return Math.PI * this.#r ** 2;
+            }
+
+            draw(ctx) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.#r, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(102, 126, 234, 0.3)';
+                ctx.fill();
+                ctx.strokeStyle = '#667eea';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Рисуем центр
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, 2 * Math.PI);
+                ctx.fillStyle = '#667eea';
+                ctx.fill();
+                
+                // Рисуем радиус
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.#r, this.y);
+                ctx.strokeStyle = '#e53e3e';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Подпись
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(`r=${this.#r}`, this.x + 10, this.y - 10);
+            }
+        }
+
+        class Rectangle extends Figure {
+            #h;
+            #w;
+
+            constructor(x, y, h, w) {
+                super(x, y);
+                this.#h = h;
+                this.#w = w;
+            }
+
+            get h() { return this.#h; }
+            get w() { return this.#w; }
+
+            square() {
+                return this.#h * this.#w;
+            }
+
+            draw(ctx) {
+                const x = this.x - this.#w / 2;
+                const y = this.y - this.#h / 2;
+                
+                ctx.fillStyle = 'rgba(72, 187, 120, 0.3)';
+                ctx.fillRect(x, y, this.#w, this.#h);
+                ctx.strokeStyle = '#48bb78';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(x, y, this.#w, this.#h);
+                
+                // Рисуем центр
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, 2 * Math.PI);
+                ctx.fillStyle = '#48bb78';
+                ctx.fill();
+                
+                // Подпись размеров
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(`${this.#w}x${this.#h}`, this.x + 10, this.y - 20);
+            }
+        }
+
+        // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+        const canvas = document.getElementById('figureCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let figures = [];
+
+        // ========== ФУНКЦИИ ОТРИСОВКИ ==========
+        function drawAll() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Рисуем сетку для ориентира
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < canvas.width; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+            
+            // Рисуем все фигуры
+            figures.forEach(figure => figure.draw(ctx));
+            
+            // Обновляем информацию о площадях
+            updateFigureInfo();
+        }
+
+        function updateFigureInfo() {
+            const circle = figures.find(f => f instanceof Circle);
+            const rect = figures.find(f => f instanceof Rectangle);
+            
+            document.getElementById('circleArea').textContent = circle ? circle.square().toFixed(2) : '0';
+            document.getElementById('rectArea').textContent = rect ? rect.square().toFixed(2) : '0';
+        }
+
+        // ========== ФУНКЦИИ УПРАВЛЕНИЯ ==========
+        function addCircle() {
+            const x = parseInt(document.getElementById('circleX').value);
+            const y = parseInt(document.getElementById('circleY').value);
+            const r = parseInt(document.getElementById('circleR').value);
+            
+            // Удаляем старый круг, если есть
+            figures = figures.filter(f => !(f instanceof Circle));
+            
+            const circle = new Circle(x, y, r);
+            figures.push(circle);
+            drawAll();
+        }
+
+        function updateCircle() {
+            addCircle(); // Просто пересоздаем круг с новыми параметрами
+        }
+
+        function addRectangle() {
+            const x = parseInt(document.getElementById('rectX').value);
+            const y = parseInt(document.getElementById('rectY').value);
+            const h = parseInt(document.getElementById('rectH').value);
+            const w = parseInt(document.getElementById('rectW').value);
+            
+            // Удаляем старый прямоугольник, если есть
+            figures = figures.filter(f => !(f instanceof Rectangle));
+            
+            const rect = new Rectangle(x, y, h, w);
+            figures.push(rect);
+            drawAll();
+        }
+
+        function updateRectangle() {
+            addRectangle(); // Просто пересоздаем прямоугольник с новыми параметрами
+        }
+
+        function clearCanvas() {
+            figures = [];
+            drawAll();
+        }
+
+        let defaultClicks = 0;
+        function drawDefault() {
+        defaultClicks++;
+        if (defaultClicks === 5) {
+        figures.push(new Circle(300, 150, 13)); 
+        alert("🎮 Секретный круг активирован! +13 к карме");
+    }
+            
+            // Обновляем поля ввода
+            document.getElementById('circleX').value = 200;
+            document.getElementById('circleY').value = 150;
+            document.getElementById('circleR').value = 50;
+            document.getElementById('rectX').value = 400;
+            document.getElementById('rectY').value = 150;
+            document.getElementById('rectH').value = 80;
+            document.getElementById('rectW').value = 120;
+        }
+
+        // Рисуем начальные фигуры
+        window.onload = drawDefault;
+    </script>
+</body>
+</html>

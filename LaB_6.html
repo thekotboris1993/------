@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная №6 - Map и Set</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-btn {
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #5a67d8;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            color: #2d3748;
+        }
+
+        .card-subtitle {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        button.secondary {
+            background: #48bb78;
+        }
+
+        button.secondary:hover {
+            background: #38a169;
+        }
+
+        .result-box {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .result-content {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .badge {
+            background: #48bb78;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .stat-circle {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+        }
+
+        .example-btn {
+            background: #9f7aea;
+            font-size: 0.9em;
+        }
+
+        .visualization {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .visual-item {
+            background: #ebf8ff;
+            border: 2px solid #4299e1;
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .visual-item .count {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c5282;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>🗂️ Лабораторная работа №6</h1>
+                <p class="subtitle">Коллекции Map и Set в JavaScript</p>
+            </div>
+            <a href="html_Lab3-7.html" class="back-btn">← Назад к лабораторным</a>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Задание 1: Set -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">①</div>
+                    <div>
+                        <div class="card-title">Set: Общие элементы</div>
+                        <div class="card-subtitle">Поиск элементов, присутствующих в обоих массивах</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Массив A (через запятую):</label>
+                    <input type="text" id="arrayA" value="1, 2, 3, 4, 5, 2, 3">
+                </div>
+
+                <div class="input-group">
+                    <label>Массив B (через запятую):</label>
+                    <input type="text" id="arrayB" value="4, 5, 6, 7, 8, 4, 5">
+                </div>
+
+                <div>
+                    <button onclick="findCommonElements()">Найти общие элементы</button>
+                    <button class="secondary example-btn" onclick="setExample1()">Пример</button>
+                </div>
+
+                <div class="result-box" id="setResult" style="display: none;">
+                    <div class="result-title">📊 Результат (Set):</div>
+                    <div class="result-content" id="setOutput"></div>
+                </div>
+
+                <div class="visualization" id="setVisualization"></div>
+            </div>
+
+            <!-- Задание 2: Map -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">②</div>
+                    <div>
+                        <div class="card-title">Map: Подсчет вхождений</div>
+                        <div class="card-subtitle">Частота каждого элемента в массиве</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Массив для подсчета:</label>
+                    <textarea id="countArray" rows="3">apple, banana, apple, orange, banana, apple, grape, banana, apple</textarea>
+                </div>
+
+                <div>
+                    <button onclick="countOccurrences()">Подсчитать вхождения</button>
+                    <button class="secondary example-btn" onclick="mapExample1()">Пример</button>
+                </div>
+
+                <div class="result-box" id="mapResult" style="display: none;">
+                    <div class="result-title">📊 Результат (Map):</div>
+                    <div class="result-content" id="mapOutput"></div>
+                </div>
+
+                <div class="visualization" id="mapVisualization"></div>
+            </div>
+
+            <!-- Задание 3: Студенты -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">③</div>
+                    <div>
+                        <div class="card-title">Группы студентов</div>
+                        <div class="card-subtitle">Подсчет студентов в самой большой группе</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Данные студентов (JSON формат):</label>
+                    <textarea id="studentsData" rows="5">[
+    {"name": "Иванов Иван", "group": "А-101"},
+    {"name": "Петров Петр", "group": "А-101"},
+    {"name": "Сидоров Сидор", "group": "Б-202"},
+    {"name": "Кузнецова Анна", "group": "А-101"},
+    {"name": "Васильева Мария", "group": "Б-202"},
+    {"name": "Николаев Николай", "group": "В-303"}
+]</textarea>
+                </div>
+
+                <div>
+                    <button onclick="analyzeGroups()">Анализировать группы</button>
+                    <button class="secondary example-btn" onclick="studentExample()">Пример</button>
+                    <button class="secondary" onclick="generateMoreStudents()">+ Сгенерировать еще</button>
+                </div>
+
+                <div class="result-box" id="groupResult" style="display: none;">
+                    <div class="result-title">📊 Результат (Группы):</div>
+                    <div class="result-content" id="groupOutput"></div>
+                </div>
+
+                <div id="groupVisualization" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- Дополнительная информация -->
+        <div style="background: white; border-radius: 15px; padding: 25px; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <h2 style="color: #4a5568; margin-bottom: 15px;">📚 Теоретическая справка</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Set</h3>
+                    <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                        <li>Коллекция уникальных значений</li>
+                        <li>Автоматически удаляет дубликаты</li>
+                        <li>Методы: add, delete, has, clear</li>
+                        <li>Размер: size</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Map</h3>
+                    <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                        <li>Коллекция ключ-значение</li>
+                        <li>Ключ может быть любого типа</li>
+                        <li>Методы: set, get, delete, has</li>
+                        <li>Итерация в порядке вставки</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== ЗАДАНИЕ 1: SET ==========
+        function findCommonElements() {
+            const arrA = document.getElementById('arrayA').value.split(',').map(s => s.trim());
+            const arrB = document.getElementById('arrayB').value.split(',').map(s => s.trim());
+            
+            // Используем Set для уникальности
+            const setA = new Set(arrA);
+            const common = new Set();
+            
+            let output = `Массив A: [${arrA}]\n`;
+            output += `Массив B: [${arrB}]\n`;
+            output += `\nУникальные элементы A (Set): [${Array.from(setA)}]\n\n`;
+            output += `🔍 Поиск общих элементов:\n`;
+            
+            for (const item of arrB) {
+                if (setA.has(item)) {
+                    common.add(item);
+                    output += `  ✓ ${item} - присутствует в обоих массивах\n`;
+                } else {
+                    output += `  ✗ ${item} - только в массиве B\n`;
+                }
+            }
+            
+            const commonArray = Array.from(common);
+            output += `\n📊 РЕЗУЛЬТАТ: Общие элементы: [${commonArray}]\n`;
+            output += `Количество общих элементов: ${commonArray.length}`;
+            
+            document.getElementById('setOutput').textContent = output;
+            document.getElementById('setResult').style.display = 'block';
+            
+            // Визуализация
+            visualizeSet(commonArray);
+        }
+
+        function visualizeSet(common) {
+            const viz = document.getElementById('setVisualization');
+            viz.innerHTML = '<div style="font-weight: bold; margin-bottom: 10px;">Общие элементы:</div>';
+            
+            common.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'visual-item';
+                el.innerHTML = `<div class="count">${item}</div><div>общий</div>`;
+                viz.appendChild(el);
+            });
+        }
+
+        function setExample1() {
+            document.getElementById('arrayA').value = '1, 2, 3, 4, 5, 2, 3';
+            document.getElementById('arrayB').value = '4, 5, 6, 7, 8, 4, 5';
+        }
+
+        // ========== ЗАДАНИЕ 2: MAP ==========
+        function countOccurrences() {
+            const input = document.getElementById('countArray').value;
+            const arr = input.split(',').map(s => s.trim());
+            
+            const countMap = new Map();
+            
+            // Подсчет вхождений
+            for (const item of arr) {
+                countMap.set(item, (countMap.get(item) || 0) + 1);
+            }
+            
+            let output = `Исходный массив: [${arr}]\n`;
+            output += `Длина массива: ${arr.length}\n\n`;
+            output += `📊 Статистика вхождений:\n`;
+            
+            // Сортировка по убыванию частоты
+            const sorted = Array.from(countMap.entries()).sort((a, b) => b[1] - a[1]);
+            
+            for (const [item, count] of sorted) {
+                const percentage = ((count / arr.length) * 100).toFixed(1);
+                output += `  ${item}: ${count} раз(а) (${percentage}%)\n`;
+            }
+            
+            output += `\n📈 Уникальных элементов: ${countMap.size}`;
+            
+            document.getElementById('mapOutput').textContent = output;
+            document.getElementById('mapResult').style.display = 'block';
+            
+            // Визуализация
+            visualizeMap(sorted);
+        }
+
+        function visualizeMap(sorted) {
+            const viz = document.getElementById('mapVisualization');
+            viz.innerHTML = '<div style="font-weight: bold; margin-bottom: 10px;">Частота элементов:</div>';
+            
+            sorted.forEach(([item, count]) => {
+                const el = document.createElement('div');
+                el.className = 'visual-item';
+                el.innerHTML = `<div class="count">${count}</div><div>${item}</div>`;
+                viz.appendChild(el);
+            });
+        }
+
+        function mapExample1() {
+            document.getElementById('countArray').value = 'apple, banana, apple, orange, banana, apple, grape, banana, apple';
+        }
+
+        // ========== ЗАДАНИЕ 3: ГРУППЫ СТУДЕНТОВ ==========
+        function analyzeGroups() {
+            try {
+                const students = JSON.parse(document.getElementById('studentsData').value);
+                
+                const groupMap = new Map();
+                
+                // Подсчет студентов в группах
+                students.forEach(student => {
+                    const group = student.group;
+                    groupMap.set(group, (groupMap.get(group) || 0) + 1);
+                });
+                
+                // Находим самую большую группу
+                let maxSize = 0;
+                let maxGroup = '';
+                
+                let output = `📊 Анализ групп студентов:\n\n`;
+                output += `Всего студентов: ${students.length}\n\n`;
+                output += `Распределение по группам:\n`;
+                
+                const sortedGroups = Array.from(groupMap.entries()).sort((a, b) => b[1] - a[1]);
+                
+                for (const [group, count] of sortedGroups) {
+                    output += `  Группа ${group}: ${count} студент(ов)\n`;
+                    if (count > maxSize) {
+                        maxSize = count;
+                        maxGroup = group;
+                    }
+                }
+                
+                output += `\n🏆 САМАЯ БОЛЬШАЯ ГРУППА: ${maxGroup} (${maxSize} студент(ов))`;
+                
+                document.getElementById('groupOutput').textContent = output;
+                document.getElementById('groupResult').style.display = 'block';
+                
+                // Визуализация
+                visualizeGroups(sortedGroups, maxGroup);
+                
+            } catch (e) {
+                alert('Ошибка в формате JSON! Проверьте введенные данные.');
+            }
+        }
+
+        function visualizeGroups(groups, maxGroup) {
+            const viz = document.getElementById('groupVisualization');
+            viz.innerHTML = '<h3 style="color: #4a5568; margin-bottom: 15px;">Группы студентов:</h3>';
+            
+            groups.forEach(([group, count]) => {
+                const bar = document.createElement('div');
+                bar.style.marginBottom = '10px';
+                bar.style.background = group === maxGroup ? '#c6f6d5' : '#f7fafc';
+                bar.style.padding = '10px';
+                bar.style.borderRadius = '5px';
+                bar.style.border = group === maxGroup ? '2px solid #38a169' : '2px solid #e2e8f0';
+                
+                bar.innerHTML = `
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: bold;">Группа ${group}</span>
+                        <span>${count} студент(ов)</span>
+                    </div>
+                    <div style="background: #e2e8f0; height: 10px; border-radius: 5px; margin-top: 5px;">
+                        <div style="background: ${group === maxGroup ? '#38a169' : '#667eea'}; width: ${(count / Math.max(...groups.map(g => g[1]))) * 100}%; height: 10px; border-radius: 5px;"></div>
+                    </div>
+                `;
+                
+                viz.appendChild(bar);
+            });
+        }
+
+        function studentExample() {
+            document.getElementById('studentsData').value = `[
+    {"name": "Иванов Иван", "group": "А-101"},
+    {"name": "Петров Петр", "group": "А-101"},
+    {"name": "Сидоров Сидор", "group": "Б-202"},
+    {"name": "Кузнецова Анна", "group": "А-101"},
+    {"name": "Васильева Мария", "group": "Б-202"},
+    {"name": "Николаев Николай", "group": "В-303"}
+]`;
+        }
+
+        function generateMoreStudents() {
+            const names = ['Иванов', 'Петров', 'Сидоров', 'Кузнецова', 'Васильева', 'Николаев', 'Федоров', 'Смирнова', 'Козлов', 'Морозова'];
+            const groups = ['А-101', 'А-102', 'Б-201', 'Б-202', 'В-301', 'В-302'];
+            
+            const students = [];
+            for (let i = 0; i < 15; i++) {
+                students.push({
+                    name: names[Math.floor(Math.random() * names.length)] + ' ' + 
+                          ['Иван', 'Петр', 'Анна', 'Мария', 'Сергей', 'Ольга'][Math.floor(Math.random() * 6)],
+                    group: groups[Math.floor(Math.random() * groups.length)]
+                });
+            }
+            
+            document.getElementById('studentsData').value = JSON.stringify(students, null, 2);
+        }
+    </script>
+</body>
+</html>

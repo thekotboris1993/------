@@ -1,0 +1,194 @@
+<!-- Добавить после существующих модальных окон, перед закрывающим тегом body -->
+
+<!-- Панель для Лабораторной работы №7 -->
+<div style="margin-top: 30px; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h2 style="color: #4a5568; margin-bottom: 20px;">🔍 Лабораторная работа №7: Сортировка и поиск</h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+        <!-- Сортировка Шелла -->
+        <div style="background: #f7fafc; padding: 20px; border-radius: 10px;">
+            <h3 style="color: #2d3748; margin-bottom: 15px;">📊 Сортировка Шелла по среднему баллу</h3>
+            <p style="color: #718096; margin-bottom: 15px;">Сортирует студентов по убыванию средней оценки</p>
+            <button onclick="shellSortStudents()" style="background: #667eea;">Запустить сортировку Шелла</button>
+            <button onclick="showSortingSteps()" style="background: #48bb78;">Показать шаги</button>
+        </div>
+        
+        <!-- Бинарный поиск -->
+        <div style="background: #f7fafc; padding: 20px; border-radius: 10px;">
+            <h3 style="color: #2d3748; margin-bottom: 15px;">🔎 Бинарный поиск студента</h3>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <input type="text" id="searchLastName" placeholder="Фамилия" style="flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+                <input type="text" id="searchFirstName" placeholder="Имя" style="flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+            </div>
+            <button onclick="binarySearchStudent()" style="background: #667eea;">Найти студента</button>
+            <button onclick="sortForBinarySearch()" style="background: #48bb78;">Сортировать для поиска</button>
+        </div>
+    </div>
+    
+    <!-- Результаты -->
+    <div id="sortingResult" style="margin-top: 20px; padding: 15px; background: #ebf8ff; border-radius: 8px; display: none;">
+        <h4 style="color: #2c5282; margin-bottom: 10px;">Результат:</h4>
+        <div id="sortingOutput" style="font-family: monospace; white-space: pre-wrap;"></div>
+    </div>
+</div>
+
+<script>
+    // ========== ФУНКЦИИ ДЛЯ ЛАБОРАТОРНОЙ РАБОТЫ №7 ==========
+    
+    // Сортировка Шелла
+    function shellSortStudents() {
+        if (students.length === 0) {
+            alert('Нет студентов для сортировки!');
+            return;
+        }
+        
+        // Копируем массив для сортировки
+        const sortedStudents = [...students];
+        const n = sortedStudents.length;
+        let steps = [];
+        
+        // Алгоритм Шелла
+        for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+            steps.push(`Шаг с промежутком ${gap}:`);
+            
+            for (let i = gap; i < n; i++) {
+                const temp = sortedStudents[i];
+                const tempAvg = parseFloat(temp.getAverageMark());
+                let j = i;
+                
+                while (j >= gap && parseFloat(sortedStudents[j - gap].getAverageMark()) < tempAvg) {
+                    sortedStudents[j] = sortedStudents[j - gap];
+                    j -= gap;
+                }
+                
+                if (j !== i) {
+                    sortedStudents[j] = temp;
+                    steps.push(`  Перемещаем ${temp.getFullName()} (${tempAvg})`);
+                }
+            }
+        }
+        
+        // Обновляем массив студентов
+        students = sortedStudents;
+        
+        // Показываем результат
+        let result = 'Сортировка Шелла завершена!\n\n';
+        result += 'Отсортированные студенты (по убыванию среднего балла):\n';
+        students.forEach((student, index) => {
+            result += `${index + 1}. ${student.getFullName()} - ${student.getAverageMark()}\n`;
+        });
+        
+        // Сохраняем шаги для показа
+        window.lastSortingSteps = steps;
+        
+        renderTable();
+        updateStats();
+        saveToLocalStorage();
+        
+        document.getElementById('sortingOutput').textContent = result;
+        document.getElementById('sortingResult').style.display = 'block';
+    }
+    
+    function showSortingSteps() {
+        if (!window.lastSortingSteps) {
+            alert('Сначала выполните сортировку!');
+            return;
+        }
+        
+        let stepsText = '📝 Шаги сортировки Шелла:\n\n';
+        window.lastSortingSteps.forEach(step => {
+            stepsText += step + '\n';
+        });
+        
+        document.getElementById('sortingOutput').textContent = stepsText;
+        document.getElementById('sortingResult').style.display = 'block';
+    }
+    
+    // Бинарный поиск
+    function binarySearchStudent() {
+        const lastName = document.getElementById('searchLastName').value.trim();
+        const firstName = document.getElementById('searchFirstName').value.trim();
+        
+        if (!lastName && !firstName) {
+            alert('Введите фамилию или имя для поиска!');
+            return;
+        }
+        
+        // Сортируем студентов для бинарного поиска
+        const searchArray = [...students].sort((a, b) => {
+            const nameA = `${a.lastName} ${a.firstName}`.toLowerCase();
+            const nameB = `${b.lastName} ${b.firstName}`.toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
+        
+        const searchTerm = `${lastName} ${firstName}`.toLowerCase().trim();
+        let left = 0;
+        let right = searchArray.length - 1;
+        let iterations = 0;
+        let found = null;
+        
+        while (left <= right) {
+            iterations++;
+            const mid = Math.floor((left + right) / 2);
+            const midName = `${searchArray[mid].lastName} ${searchArray[mid].firstName}`.toLowerCase();
+            
+            if (midName === searchTerm) {
+                found = searchArray[mid];
+                break;
+            }
+            
+            if (searchTerm < midName) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        
+        let result = `🔍 Бинарный поиск (потребовалось ${iterations} итераций):\n\n`;
+        
+        if (found) {
+            result += `✅ Найден студент:\n`;
+            result += `   ФИО: ${found.getFullName()}\n`;
+            result += `   Группа: ${found.group}\n`;
+            result += `   Возраст: ${found.age}\n`;
+            result += `   Средний балл: ${found.getAverageMark()}\n`;
+            result += `   Статус: ${found.getStatus()}\n`;
+            result += `   Всего оценок: ${found.marks.length}`;
+        } else {
+            result += `❌ Студент "${lastName} ${firstName}" не найден`;
+        }
+        
+        document.getElementById('sortingOutput').textContent = result;
+        document.getElementById('sortingResult').style.display = 'block';
+    }
+    
+    function sortForBinarySearch() {
+        // Сортируем студентов по ФИО для бинарного поиска
+        students.sort((a, b) => {
+            const nameA = `${a.lastName} ${a.firstName}`.toLowerCase();
+            const nameB = `${b.lastName} ${b.firstName}`.toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
+        
+        renderTable();
+        saveToLocalStorage();
+        
+        let result = 'Студенты отсортированы по алфавиту для бинарного поиска:\n\n';
+        students.forEach((student, index) => {
+            result += `${index + 1}. ${student.getFullName()}\n`;
+        });
+        
+        document.getElementById('sortingOutput').textContent = result;
+        document.getElementById('sortingResult').style.display = 'block';
+    }
+    
+    // Проверяем URL параметры для открытия вкладки сортировки
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('tab') === 'sorting') {
+            setTimeout(() => {
+                document.getElementById('sortingResult').scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
+    });
+</script>
