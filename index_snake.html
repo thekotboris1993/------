@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <title>Змейка - Игра с таблицей лидеров</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles_snake.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1 class="game-title">🐍 ЗМЕЙКА 🐍</h1>
+      <div id="game-board"></div>
+    </div>
+
+    <div class="controls">
+      <!-- Строка 1: Счет + Скорость -->
+      <div class="controls-row">
+        <div class="score-container">
+          <div class="score-label">Текущий счет</div>
+          <div class="score-value" id="score-value">0</div>
+        </div>
+
+        <div class="speed-container">
+          <div class="speed-label">⚡ Скорость</div>
+          <div class="speed-value" id="speed-value">800</div>
+          <div class="speed-controls">
+            <input type="range" id="speed-slider" min="100" max="2000" step="50" value="800" />
+            <input type="number" id="speed-input" value="800" step="50" min="100" max="2000" />
+          </div>
+          <div class="multiplier-info" id="speed-info">
+            Множитель: <span id="multiplier-value">x1.0</span> | +<span id="points-per-food">10</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Строка 2: Цвет змейки + Джойстик -->
+      <div class="controls-row">
+        <div class="color-palette">
+          <div class="color-header">
+            <span>🎨 Цвет змейки</span>
+            <label class="gradient-toggle">
+              <input type="checkbox" id="gradient-toggle" /> Градиент ✨
+            </label>
+          </div>
+          <div class="preset-colors">
+            <button class="color-btn" data-color="#4caf50" style="background: #4caf50" title="Зеленый">🌿</button>
+            <button class="color-btn" data-color="#2196f3" style="background: #2196f3" title="Синий">💙</button>
+            <button class="color-btn" data-color="#ff9800" style="background: #ff9800" title="Оранжевый">🧡</button>
+            <button class="color-btn" data-color="#e91e63" style="background: #e91e63" title="Розовый">💗</button>
+            <button class="color-btn" data-color="#9c27b0" style="background: #9c27b0" title="Фиолетовый">💜</button>
+            <button class="color-btn" data-color="#00bcd4" style="background: #00bcd4" title="Бирюзовый">💎</button>
+            <button class="color-btn" data-color="#ff5722" style="background: #ff5722" title="Огненный">🔥</button>
+            <button class="color-btn" data-color="#ffeb3b" style="background: #ffeb3b" title="Желтый">⭐</button>
+          </div>
+          <div class="custom-color">
+            <label>Свой цвет:</label>
+            <input type="color" id="snake-color-picker" value="#4caf50" />
+          </div>
+        </div>
+
+        <div class="joystick">
+          <div class="joystick-header">🎮 Управление</div>
+          <div class="joystick-buttons">
+            <button class="joystick-btn" id="btn-up">▲</button>
+            <div class="joystick-row">
+              <button class="joystick-btn" id="btn-left">◀</button>
+              <button class="joystick-btn" id="btn-down">▼</button>
+              <button class="joystick-btn" id="btn-right">▶</button>
+            </div>
+          </div>
+          <div class="control-hint">⬆️ ⬇️ ⬅️ ➡️</div>
+        </div>
+      </div>
+
+      <!-- Строка 3: Таблица лидеров во всю ширину -->
+      <div class="leaderboard">
+        <div class="leaderboard-header">
+          <h3>🏆 ТАБЛИЦА ЛИДЕРОВ 🏆</h3>
+          <button id="clear-leaderboard" class="clear-btn">🗑️ Очистить</button>
+        </div>
+        <div id="leaderboard-list" class="leaderboard-list">
+          <div class="leaderboard-empty">🏆 Пока нет рекордов 🏆</div>
+        </div>
+      </div>
+
+      <!-- Кнопка сброса -->
+      <button id="reset-game-btn" class="reset-btn">🔄 СБРОС ИГРЫ [R]</button>
+    </div>
+
+    <!-- Модальное окно для ввода имени -->
+    <div id="name-modal" class="modal">
+      <div class="modal-content">
+        <h2>🎉 ИГРА ЗАВЕРШЕНА! 🎉</h2>
+        <p>Ваш счет: <span id="final-score">0</span></p>
+        <p>Введите ваше имя для таблицы лидеров:</p>
+        <input type="text" id="player-name" maxlength="20" placeholder="Ваше имя" autocomplete="off" />
+        <div class="modal-buttons">
+          <button id="save-score-btn" class="save-btn">💾 СОХРАНИТЬ</button>
+          <button id="skip-save-btn" class="skip-btn">⏭️ ПРОПУСТИТЬ</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script_snake.js"></script>
+  </body>
+</html>
