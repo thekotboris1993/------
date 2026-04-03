@@ -41,6 +41,105 @@
             color: #a0aec0;
             font-size: 0.8em;
         }
+
+        /* Стили для вкладок Модуля 3 */
+        .module3-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+        
+        .module3-tab {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .module3-tab.active {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .module3-tab:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .module3-content {
+            display: none;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        
+        .module3-content.active {
+            display: block;
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        
+        .todo-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .todo-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            transition: transform 0.3s ease;
+        }
+        
+        .todo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .todo-card h4 {
+            margin-bottom: 15px;
+            color: #f39c12;
+        }
+        
+        .todo-card p {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+        
+        .game-preview {
+            text-align: center;
+        }
+        
+        .game-preview p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .game-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .game-feature {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -151,6 +250,51 @@
                 <p>Платформа для практики испанского языка. Интерактивные тесты по грамматике, лексике и культуре Испании с системой отслеживания прогресса.</p>
                 <div class="project-links">
                     <a href="hub.html" class="nav-link">Перейти к тестам</a>
+                </div>
+            </div>
+
+            <!-- НОВАЯ КАРТОЧКА: Модуль 3 - Игры и приложения -->
+            <div class="project-card">
+                <span class="project-icon">🎮</span>
+                <h2>Модуль 3: Игры и приложения</h2>
+                <p>Коллекция интерактивных приложений: классическая игра "Змейка" и приложение "Список задач" в двух реализациях (Vanilla JS и jQuery).</p>
+                
+                <!-- Вкладки модуля 3 -->
+                <div class="module3-tabs">
+                    <button class="module3-tab active" data-tab="snake">🐍 Змейка</button>
+                    <button class="module3-tab" data-tab="todo">📝 Список задач</button>
+                </div>
+                
+                <!-- Контент Змейки -->
+                <div class="module3-content active" id="tab-snake">
+                    <div class="game-preview">
+                        <p>Классическая игра "Змейка" с расширенным функционалом: таблица лидеров, настройка скорости, выбор цвета змейки, градиентный эффект и система множителей очков!</p>
+                        <div class="game-features">
+                            <span class="game-feature">🏆 Таблица лидеров</span>
+                            <span class="game-feature">⚡ Регулировка скорости</span>
+                            <span class="game-feature">🎨 Выбор цвета</span>
+                            <span class="game-feature">✨ Градиентный эффект</span>
+                            <span class="game-feature">📊 Система множителей</span>
+                        </div>
+                        <a href="index_snake.html" class="nav-link" style="margin-top: 15px; display: inline-block;">🎮 Играть в Змейку</a>
+                    </div>
+                </div>
+                
+                <!-- Контент Списка задач -->
+                <div class="module3-content" id="tab-todo">
+                    <p>Приложение для управления задачами с возможностью добавления, редактирования, удаления и отметки выполнения. Доступно в двух реализациях:</p>
+                    <div class="todo-links">
+                        <div class="todo-card">
+                            <h4>📝 Vanilla JavaScript</h4>
+                            <p>Реализация на чистом JavaScript без использования сторонних библиотек.</p>
+                            <a href="index_todo-list-js.html" class="nav-link">Открыть Vanilla JS</a>
+                        </div>
+                        <div class="todo-card">
+                            <h4>📝 jQuery</h4>
+                            <p>Реализация с использованием библиотеки jQuery для работы с DOM.</p>
+                            <a href="index_todo-list-jquery.html" class="nav-link">Открыть jQuery</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div> <!-- Закрытие .projects-grid -->
@@ -306,6 +450,9 @@
             cards.forEach((card, index) => {
                 card.style.animationDelay = (index * 0.1) + 's';
             });
+            
+            // Инициализация вкладок Модуля 3
+            initModule3Tabs();
         });
 
         // Функции для модальных окон
@@ -339,6 +486,29 @@
                 event.target.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
+        }
+        
+        // Функция для работы с вкладками Модуля 3
+        function initModule3Tabs() {
+            const tabs = document.querySelectorAll('.module3-tab');
+            const contents = document.querySelectorAll('.module3-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Убираем активный класс у всех вкладок и контента
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей вкладке и контенту
+                    this.classList.add('active');
+                    const activeContent = document.getElementById(`tab-${tabId}`);
+                    if (activeContent) {
+                        activeContent.classList.add('active');
+                    }
+                });
+            });
         }
     </script>
 </body>
