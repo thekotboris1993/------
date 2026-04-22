@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модуль 3 - Веб технологии </title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* Cтили для хаба модуля 3 */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #e67e22;
+            transform: translateX(-5px);
+        }
+        
+        .module-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .lab-progress {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+        
+        .progress-bar-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            height: 12px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            width: 28.5%;
+            height: 100%;
+            border-radius: 25px;
+            animation: progressAnim 1s ease-out;
+        }
+        
+        @keyframes progressAnim {
+            from { width: 0; }
+            to { width: 28.5%; }
+        }
+        
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .lab-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .lab-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .lab-card-header {
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .lab-card-header.lab1 { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .lab-card-header.lab2 { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .lab-card-header.coming-soon { background: linear-gradient(135deg, #7f8c8d, #95a5a6); }
+        
+        .lab-number {
+            font-size: 0.9em;
+            opacity: 0.9;
+            letter-spacing: 2px;
+        }
+        
+        .lab-icon {
+            font-size: 4em;
+            display: block;
+            margin: 15px 0;
+        }
+        
+        .lab-title {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        
+        .lab-card-body {
+            padding: 20px;
+            color: #333;
+        }
+        
+        .lab-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .lab-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .lab-feature {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #555;
+        }
+        
+        .lab-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .lab-link {
+            flex: 1;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .lab-link.primary {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+        
+        .lab-link.secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .lab-link.primary:hover, .lab-link.secondary:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+        
+        .coming-soon-text {
+            text-align: center;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            color: #999;
+        }
+        
+        .coming-soon-text .emoji {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .footer-info {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Вернуться на главную</a>
+        
+        <div class="header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <h1 class="module-title">🎮 Модуль 3</h1>
+            <p>Веб технологии</p>
+        </div>
+        
+        <div class="lab-progress">
+            <strong>📊 Прогress модуля:</strong> 2 из 7 лабораторных работ выполнено
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+            <small>⭐ Лабораторные №1 и №2 готовы</small>
+        </div>
+        
+        <div class="lab-grid">
+            <!-- Лабораторная №1 - Змейка -->
+            <div class="lab-card">
+                <div class="lab-card-header lab1">
+                    <div class="lab-number">ЛАБОРАТОРНАЯ РАБОТА №1</div>
+                    <div class="lab-icon">🐍</div>
+                    <div class="lab-title">Змейка</div>
+                </div>
+                <div class="lab-card-body">
+                    <div class="lab-description">
+                        Классическая аркадная игра "Змейка" с расширенным функционалом. Управляй змейкой, собирайте еду и устанавливайте рекорды!
+                    </div>
+                    <div class="lab-features">
+                        <span class="lab-feature">🏆 Таблица лидеров</span>
+                        <span class="lab-feature">⚡ Регулировка скорости</span>
+                        <span class="lab-feature">🎨 Выбор цвета змейки</span>
+                        <span class="lab-feature">✨ Градиентный эффект</span>
+                        <span class="lab-feature">📊 Система множителей</span>
+                        <span class="lab-feature">⌨️ Управление с клавиатуры</span>
+                    </div>
+                    <div class="lab-links">
+                        <a href="index_snake.html" class="lab-link primary">🎮 Играть в Змейку</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Лабораторная №2 - Список задач -->
+            <div class="lab-card">
+                <div class="lab-card-header lab2">
+                    <div class="lab-number">ЛАБОРАТОРНАЯ РАБОТА №2</div>
+                    <div class="lab-icon">📝</div>
+                    <div class="lab-title">Список задач</div>
+                </div>
+                <div class="lab-card-body">
+                    <div class="lab-description">
+                        Приложение для управления задачами с возможностью добавления, редактирования, удаления и отметки выполнения. Реализовано в двух вариантах.
+                    </div>
+                    <div class="lab-features">
+                        <span class="lab-feature">➕ Добавление задач</span>
+                        <span class="lab-feature">✏️ Редактирование</span>
+                        <span class="lab-feature">✅ Отметка выполнения</span>
+                        <span class="lab-feature">❌ Удаление</span>
+                        <span class="lab-feature">💾 Vanilla JS версия</span>
+                        <span class="lab-feature">📦 jQuery версия</span>
+                    </div>
+                    <div class="lab-links">
+                        <a href="index_todo-list-js.html" class="lab-link primary">📄 Vanilla JS</a>
+                        <a href="index_todo-list-jquery.html" class="lab-link secondary">📄 jQuery</a>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Лабораторная №3 - Vue форма регистрации -->
+<div class="lab-card">
+    <div class="lab-card-header completed">
+        <div class="lab-number">ЛАБОРАТОРНАЯ РАБОТА №3</div>
+        <div class="lab-icon">📝</div>
+        <div class="lab-title">Vue форма регистрации</div>
+    </div>
+    <div class="lab-card-body">
+        <div class="lab-features">
+            <span class="feature-tag">✅ Проверка паролей</span>
+            <span class="feature-tag">👁️ Показать пароль</span>
+            <span class="feature-tag">📊 Реактивные данные</span>
+            <span class="feature-tag">🔒 Блокировка кнопки</span>
+        </div>
+        <p style="margin: 15px 0; color: #666;">Реактивная форма регистрации на Vue.js с проверкой пароля и отображением данных.</p>
+        <a href="vue-project/index.html" class="lab-link" target="_blank">Открыть форму →</a>
+    </div>
+</div>
+            
+            <!-- Лабораторная №4 - В разработке -->
+            <div class="lab-card">
+                <div class="lab-card-header coming-soon">
+                    <div class="lab-number">ЛАБОРАТОРНАЯ РАБОТА №4</div>
+                    <div class="lab-icon">⏳</div>
+                    <div class="lab-title">В разработке</div>
+                </div>
+                <div class="lab-card-body">
+                    <div class="coming-soon-text">
+                        <div class="emoji">🚧</div>
+                        <p>Лабораторная работа находится в разработке</p>
+                        <small>Скоро здесь появится новый проект</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Лабораторная №5 - В разработке -->
+            <div class="lab-card">
+                <div class="lab-card-header coming-soon">
+                    <div class="lab-number">ЛАБОРАТОРНАЯ РАБОТА №5</div>
+                    <div class="lab-icon">⏳</div>
+                    <div class="lab-title">В разработке</div>
+                </div>
+                <div class="lab-card-body">
+                    <div class="coming-soon-text">
+                        <div class="emoji">🚧</div>
+                        <p>Лабораторная работа находится в разработке</p>
+                        <small>Скоро здесь появится новый проект</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Лабораторные №6-7 - В разработке -->
+            <div class="lab-card">
+                <div class="lab-card-header coming-soon">
+                    <div class="lab-number">ЛАБОРАТОРНЫЕ №6-7</div>
+                    <div class="lab-icon">⏳</div>
+                    <div class="lab-title">В разработке</div>
+                </div>
+                <div class="lab-card-body">
+                    <div class="coming-soon-text">
+                        <div class="emoji">🚧</div>
+                        <p>Лабораторные работы 6 и 7 находятся в разработке</p>
+                        <small>Скоро здесь появятся новые проекты</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <div class="floating-profile">
+        <a href="https://github.com/thekotboris1993" target="_blank" class="profile-link">
+            <img src="https://i.redd.it/not-usually-into-painting-but-sometimes-i-dabble-v0-c5qjuo98atif1.jpg?width=598&format=pjpg&auto=webp&s=840c4899c6469342039e2389a02082063641a9ab" 
+                 alt="Профиль GitHub" 
+                 class="profile-avatar">
+            <span class="profile-tooltip">Мой GitHub профиль</span>
+        </a>
+    </div>
+    
+    <style>
+        .floating-profile {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .profile-link {
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            background: white;
+            padding: 3px;
+            object-fit: cover;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.1);
+            border-color: #e74c3c;
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.5);
+        }
+        
+        .profile-tooltip {
+            position: absolute;
+            bottom: 100%;
+            right: 50%;
+            transform: translateX(50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .profile-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .profile-link:hover .profile-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-avatar { width: 50px; height: 50px;
