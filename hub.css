@@ -438,3 +438,24 @@ body {
         font-size: 0.7em;
     }
 }
+/* Стили для карточек уровней корейской лексики */
+.test-card.korean-card:nth-child(2)::before {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32) !important;
+}
+.test-card.korean-card:nth-child(2) .nav-link {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32) !important;
+}
+
+.test-card.korean-card:nth-child(3)::before {
+    background: linear-gradient(135deg, #FF9800, #F57C00) !important;
+}
+.test-card.korean-card:nth-child(3) .nav-link {
+    background: linear-gradient(135deg, #FF9800, #F57C00) !important;
+}
+
+.test-card.korean-card:nth-child(4)::before {
+    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+}
+.test-card.korean-card:nth-child(4) .nav-link {
+    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+}
